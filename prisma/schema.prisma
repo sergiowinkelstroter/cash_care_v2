@@ -1,0 +1,126 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgres://cash_care_user:0GxwHwVUWZfy6dmZ4z0ekcUtLf7Ig52b@dpg-cokpeted3nmc739japfg-a.oregon-postgres.render.com/cash_care"
+}
+
+model User {
+  id             Int              @id @default(autoincrement())
+  name           String
+  email          String           @unique
+  password       String
+  perfil         String           @default("classic")
+  createdAt      DateTime         @default(now()) @map(name: "created_at")
+  updatedAt      DateTime         @default(now()) @map(name: "updated_at")
+  situacao       String           @default("A")
+  Unit           Unit[]
+  Movement       Movement[]
+  Payable        Payable[]
+  Installment    Installment[]
+  Category       Category[]
+  CategoryToUnit CategoryToUnit[]
+}
+
+model Unit {
+  id          Int              @id @default(autoincrement())
+  description String
+  situacao    String           @default("A")
+  userId      Int
+  user        User             @relation(fields: [userId], references: [id])
+  createdAt   DateTime         @default(now()) @map(name: "created_at")
+  Movement    Movement[]
+  Payable     Payable[]
+  Installment Installment[]
+  categories  CategoryToUnit[]
+}
+
+model Category {
+  id          Int              @id @default(autoincrement())
+  description String
+  color       String?
+  situacao    String?          @default("A")
+  userId      Int
+  createdAt   DateTime         @default(now()) @map(name: "created_at")
+  updatedAt   DateTime         @default(now()) @map(name: "updated_at")
+  user        User             @relation(fields: [userId], references: [id])
+  units       CategoryToUnit[]
+  Movement    Movement[]
+  Payable     Payable[]
+  Installment Installment[]
+}
+
+model CategoryToUnit {
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  unitId     Int
+  unit       Unit     @relation(fields: [unitId], references: [id])
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@id([categoryId, unitId])
+}
+
+model Movement {
+  id            Int           @id @default(autoincrement())
+  description   String
+  value         Decimal
+  type          String
+  date          DateTime
+  paymentMethod String?
+  userId        Int
+  unitId        Int
+  categoryId    Int           @default(0)
+  category      Category      @relation(fields: [categoryId], references: [id])
+  user          User          @relation(fields: [userId], references: [id])
+  unit          Unit          @relation(fields: [unitId], references: [id])
+  createdAt     DateTime      @default(now()) @map(name: "created_at")
+  updatedAt     DateTime      @default(now()) @map(name: "updated_at")
+  Installment   Installment[]
+}
+
+model Payable {
+  id                   Int           @id @default(autoincrement())
+  description          String
+  totalValue           Decimal
+  numberOfInstallments Int
+  uniqueDate           Int?
+  userId               Int
+  unitId               Int
+  categoryId           Int
+  category             Category      @relation(fields: [categoryId], references: [id])
+  unit                 Unit          @relation(fields: [unitId], references: [id])
+  user                 User          @relation(fields: [userId], references: [id])
+  createdAt            DateTime      @default(now()) @map(name: "created_at")
+  updatedAt            DateTime      @default(now()) @map(name: "updated_at")
+  Installment          Installment[]
+}
+
+model Installment {
+  id                Int       @id @default(autoincrement())
+  description       String
+  installmentNumber String
+  value             Decimal
+  date              DateTime
+  status            String
+  payableId         Int
+  userId            Int
+  unitId            Int
+  categoryId        Int?
+  movimentId        Int?      @unique
+  category          Category? @relation(fields: [categoryId], references: [id])
+  moviment          Movement? @relation(fields: [movimentId], references: [id])
+  unit              Unit      @relation(fields: [unitId], references: [id])
+  user              User      @relation(fields: [userId], references: [id])
+  payable           Payable   @relation(fields: [payableId], references: [id])
+  createdAt         DateTime  @default(now()) @map(name: "created_at")
+  updatedAt         DateTime  @default(now()) @map(name: "updated_at")
+}
