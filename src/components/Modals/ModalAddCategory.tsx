@@ -74,6 +74,7 @@ export const ModalAddCategory = ({
   async function handleChange(
     value: z.infer<typeof createCategoriaFormSchema>
   ) {
+    console.log(value);
     try {
       await createCategoria(value);
       setOpen(false);
@@ -104,8 +105,7 @@ export const ModalAddCategory = ({
           <Input
             id="description"
             type="text"
-            required
-            {...register}
+            {...register("description")}
             defaultValue={category?.description}
           />
         </div>
@@ -132,8 +132,7 @@ export const ModalAddCategory = ({
           <Input
             id="color"
             type="color"
-            required
-            {...register}
+            {...register("color")}
             defaultValue={category?.color}
           />
         </div>
