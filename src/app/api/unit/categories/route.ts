@@ -12,13 +12,31 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { categories } = body;
   categories.forEach(async (categoryId: number) => {
-    const assocUnitAndCategory = await prisma.categoryToUnit.create({
-      data: {
+    const c = await prisma.categoryToUnit.findMany({
+      where: {
         unitId: Number(id),
         categoryId: Number(categoryId),
         userId,
       },
     });
+
+    if (c.length > 0) {
+      await prisma.categoryToUnit.deleteMany({
+        where: {
+          unitId: Number(id),
+          categoryId: Number(categoryId),
+          userId,
+        },
+      });
+    } else {
+      await prisma.categoryToUnit.create({
+        data: {
+          unitId: Number(id),
+          categoryId: Number(categoryId),
+          userId,
+        },
+      });
+    }
   });
 
   return NextResponse.json({ status: 200 });

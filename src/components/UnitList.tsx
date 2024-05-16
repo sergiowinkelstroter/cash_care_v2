@@ -89,6 +89,7 @@ export function UnitList({ data }: { data: Unit[] }) {
     setIsLoading(true);
     api.get(`/unit/categories?id=${row.original.id}`).then((data) => {
       setCategories(data.data);
+      console.log(data.data);
       setIsLoading(false);
     });
   }
