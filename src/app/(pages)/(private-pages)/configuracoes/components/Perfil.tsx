@@ -19,7 +19,7 @@ import { z } from "zod";
 import { Loading } from "@/components/Loading";
 import { ModalAlterarSenha } from "@/components/Modals/ModalAlterarSenha";
 import { Label } from "@/components/ui/label";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -33,6 +33,7 @@ export const Perfil = () => {
   const { toast } = useToast();
   const navigate = useRouter();
   const queryClient = useQueryClient();
+  const [open, setOpen] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ["perfil"],
@@ -99,7 +100,7 @@ export const Perfil = () => {
 
   return (
     <Card className="mt-4 relative">
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <CardHeader className="flex flex-row items-center justify-between">
           <div className="space-y-1">
             <CardTitle>Perfil</CardTitle>
@@ -152,7 +153,7 @@ export const Perfil = () => {
             </Button>
           </CardFooter>
         </form>
-        <ModalAlterarSenha />
+        <ModalAlterarSenha setOpen={setOpen} />
       </Dialog>
     </Card>
   );

@@ -29,7 +29,11 @@ const formPasswordSchema = z.object({
   newPassword: z.string().min(1, "O campo é obrigatório"),
 });
 
-export const ModalAlterarSenha = () => {
+export const ModalAlterarSenha = ({
+  setOpen,
+}: {
+  setOpen: (open: boolean) => void;
+}) => {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formPasswordSchema>>({
     resolver: zodResolver(formPasswordSchema),
@@ -43,6 +47,7 @@ export const ModalAlterarSenha = () => {
   }) {
     try {
       const response = await api.patch("/users/perfil/update-password", data);
+      setOpen(false);
       toast({
         title: "Senha alterada",
         description: "Sua senha foi alterada com sucesso",
