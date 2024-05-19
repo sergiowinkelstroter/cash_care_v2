@@ -9,6 +9,7 @@ import {
   DollarSign,
   File,
   FileUp,
+  PartyPopper,
   Users,
 } from "lucide-react";
 
@@ -142,10 +143,11 @@ export const MenuData = ({ data }: MenuDataProps) => {
                   </div>
                 </>
               ))}
-            {data?.parcelas_a_pagar === undefined && (
-              <p className="text-center mt-4 text-muted-foreground">
-                Nenhuma conta a pagar
-              </p>
+            {data?.parcelas_a_pagar.length === 0 && (
+              <div className="flex flex-col items-center mt-6 text-muted-foreground">
+                <PartyPopper />
+                <p className="text-sm">Nenhuma conta a pagar</p>
+              </div>
             )}
           </CardContent>
         </Card>

@@ -20,6 +20,8 @@ import { Loading } from "@/components/Loading";
 import { ModalAlterarSenha } from "@/components/Modals/ModalAlterarSenha";
 import { Label } from "@/components/ui/label";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const perfilSchema = z.object({
   name: z.string().min(1, "O nome é obrigatório"),
@@ -29,6 +31,7 @@ const perfilSchema = z.object({
 
 export const Perfil = () => {
   const { toast } = useToast();
+  const navigate = useRouter();
   const queryClient = useQueryClient();
 
   const { data, isLoading } = useQuery({
@@ -133,7 +136,13 @@ export const Perfil = () => {
             </div>
           </CardContent>
 
-          <CardFooter className="flex justify-end gap-2">
+          <CardFooter className="flex flex-col w-full items-stretch md:flex-row  md:justify-end gap-2">
+            <Link
+              href={"/painel-pagamento"}
+              className="border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 rounded-md text-center font-semibold text"
+            >
+              Painel de Pagamento
+            </Link>
             <DialogTrigger asChild>
               <Button variant="default">Alterar senha</Button>
             </DialogTrigger>

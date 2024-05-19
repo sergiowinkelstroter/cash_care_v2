@@ -128,7 +128,7 @@ export function MenuClassic() {
         <div className="flex flex-col md:flex-row justify-between w-full px-4 md:gap-8 md:pl-8">
           <TabsList className="mb-4 w-auto">
             {unitsData?.map((unit) => (
-              <TabsTrigger key={unit.id} value={unit.id}>
+              <TabsTrigger key={unit.id} value={unit.id} className="w-full">
                 {unit.description}
               </TabsTrigger>
             ))}
