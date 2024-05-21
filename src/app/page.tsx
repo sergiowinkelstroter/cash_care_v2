@@ -113,7 +113,7 @@ export default function Home() {
             </Button>
           </div>
           <div className="w-full md:flex justify-center items-center hidden">
-            <Image src="/qrcode.png" alt="cashcare" width={300} height={300} />
+            <Image src="/hero.png" alt="cashcare" width={300} height={300} />
           </div>
         </section>
         <section id="sobre" className="py-16 bg-black/90">
