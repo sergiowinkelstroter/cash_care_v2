@@ -9,13 +9,14 @@ const createUserSchema = z.object({
   email: z.string(),
   password: z.string(),
   perfil: z.string(),
+  fone: z.string().optional(),
 });
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
   const validatedData = createUserSchema.parse(body);
-  const { name, email, password, perfil } = validatedData;
+  const { name, email, password, perfil, fone } = validatedData;
 
   // let email = "sergio@gmail.com";
   // let name = "Sergio";
@@ -37,12 +38,15 @@ export async function POST(request: NextRequest) {
 
   let passwordHash = await bcrypt.hash(password, 10);
 
+  console.log(fone);
+
   const newUser = await prisma.user.create({
     data: {
       name,
       email,
       password: passwordHash,
       perfil,
+      fone: fone ? fone : "",
     },
   });
 

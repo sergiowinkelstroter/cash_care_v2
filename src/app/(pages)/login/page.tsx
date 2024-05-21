@@ -66,8 +66,8 @@ export default function Login() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-800">
-      <div className="flex flex-col items-center justify-center  ">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-black">
+      <div className="flex flex-col items-center justify-center ">
         <h1 className=" text-white text-xl md:text-3xl font-bold mb-4">
           Cash Care
         </h1>
@@ -112,10 +112,21 @@ export default function Login() {
                 />
               </div>
             </CardContent>
-            <CardFooter>
-              <Button className="w-full" disabled={isLoading}>
-                {isLoading ? "Carregando..." : "Entrar"}
-              </Button>
+            <CardFooter className="flex flex-col gap-2">
+              <div className="w-full flex gap-4">
+                <Button asChild className="w-full" variant={"outline"}>
+                  <Link href={"/"}>Voltar</Link>
+                </Button>
+                <Button className="w-full" disabled={isLoading}>
+                  {isLoading ? "Carregando..." : "Entrar"}
+                </Button>
+              </div>
+              <p>
+                Não possui uma conta?{" "}
+                <Link href="/register" className="underline">
+                  Clique aqui
+                </Link>
+              </p>
             </CardFooter>
           </form>
         </Card>
