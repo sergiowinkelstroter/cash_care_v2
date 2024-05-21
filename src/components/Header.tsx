@@ -62,7 +62,12 @@ export const Header = ({ session }: HeaderProps) => {
         setTimeLeft(secondsLeft);
       } else {
         api.put(`/users?id=${session.user.id}&situacao=A`).then(() => {
-          signOut();
+          signOut({
+            callbackUrl:
+              process.env.NODE_ENV === "development"
+                ? "http://localhost:3000"
+                : "https://cashcare.cloud",
+          });
           router.push("/");
         });
       }
@@ -199,7 +204,17 @@ export const Header = ({ session }: HeaderProps) => {
               >
                 Configurações
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => signOut()} asChild>
+              <DropdownMenuItem
+                onClick={() =>
+                  signOut({
+                    callbackUrl:
+                      process.env.NODE_ENV === "development"
+                        ? "http://localhost:3000"
+                        : "https://cashcare.cloud",
+                  })
+                }
+                asChild
+              >
                 <Button variant={"destructive"} className="w-full">
                   Sair
                 </Button>
@@ -303,7 +318,17 @@ export const Header = ({ session }: HeaderProps) => {
                 >
                   Configurações
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => signOut()} asChild>
+                <DropdownMenuItem
+                  onClick={() =>
+                    signOut({
+                      callbackUrl:
+                        process.env.NODE_ENV === "development"
+                          ? "http://localhost:3000"
+                          : "https://cashcare.cloud",
+                    })
+                  }
+                  asChild
+                >
                   <Button variant={"destructive"} className="w-full">
                     Sair
                   </Button>

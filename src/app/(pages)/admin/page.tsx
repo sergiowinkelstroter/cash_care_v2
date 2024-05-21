@@ -92,7 +92,12 @@ export default function Admin() {
   }
 
   async function handleSignOut() {
-    await signOut();
+    await signOut({
+      callbackUrl:
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3000"
+          : "https://cashcare.cloud",
+    });
     redirect("/login");
   }
 

@@ -7,7 +7,12 @@ import { redirect } from "next/navigation";
 export default function TestOver() {
   const { data: session } = useSession();
   async function handleSignOut() {
-    await signOut();
+    await signOut({
+      callbackUrl:
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3000"
+          : "https://cashcare.cloud",
+    });
     redirect("/login");
   }
   if (!session) {
