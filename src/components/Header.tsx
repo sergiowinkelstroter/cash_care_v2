@@ -1,9 +1,13 @@
 "use client";
+import { useEffect, useState } from "react";
+import { differenceInSeconds, addDays } from "date-fns";
+import Countdown from "react-countdown";
 import { Session } from "next-auth";
 import Link from "next/link";
 import {
   ArrowUpDown,
   CircleDollarSign,
+  Clock,
   DollarSign,
   Home,
   PanelLeft,
@@ -34,6 +38,8 @@ import {
 } from "@/components/ui/tooltip";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { api } from "@/lib/axios";
+import { toZonedTime } from "date-fns-tz";
 
 interface HeaderProps {
   session: Session | null;
@@ -41,6 +47,27 @@ interface HeaderProps {
 
 export const Header = ({ session }: HeaderProps) => {
   const router = useRouter();
+  const [timeLeft, setTimeLeft] = useState(0);
+  const timeZone = "America/Sao_Paulo";
+
+  useEffect(() => {
+    if (session?.user && session.user.createdAt) {
+      const createdAt = new Date(session.user.createdAt);
+      const localCreatedAt = toZonedTime(createdAt, timeZone);
+      const trialEndDate = addDays(localCreatedAt, 7);
+      const now = new Date();
+      const secondsLeft = differenceInSeconds(trialEndDate, now);
+
+      if (secondsLeft > 0) {
+        setTimeLeft(secondsLeft);
+      } else {
+        api.put(`/users?id=${session.user.id}&situacao=A`).then(() => {
+          signOut();
+          router.push("/");
+        });
+      }
+    }
+  }, [session, router]);
 
   return (
     <>
@@ -126,6 +153,16 @@ export const Header = ({ session }: HeaderProps) => {
           </Tooltip> */}
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
+          {session?.user.perfil === "test" && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Clock color="#2bff00" />
+              </TooltipTrigger>
+              <TooltipContent side="right">
+                {<Countdown date={Date.now() + timeLeft * 1000} />}
+              </TooltipContent>
+            </Tooltip>
+          )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -148,12 +185,14 @@ export const Header = ({ session }: HeaderProps) => {
                 {session?.user?.email}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => router.push("/painel-pagamento")}
-                className="w-full text-center"
-              >
-                Painel de Pagamento
-              </DropdownMenuItem>
+              {session?.user?.perfil !== "test" && (
+                <DropdownMenuItem
+                  onClick={() => router.push("/painel-pagamento")}
+                  className="w-full text-center"
+                >
+                  Painel de Pagamento
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem
                 onClick={() => router.push("/configuracoes")}
                 className="w-full text-center"
@@ -217,47 +256,61 @@ export const Header = ({ session }: HeaderProps) => {
             </SheetContent>
           </Sheet>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger className="sm:hidden" asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className="overflow-hidden rounded-full"
-              >
-                <User className="h-5 w-5" />
-                <span className="sr-only">User</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="start"
-              className="w-44 mr-5 text-center flex flex-col items-center justify-center"
-            >
-              <DropdownMenuLabel className="text-xs">
-                {session?.user?.name?.toUpperCase()}
-              </DropdownMenuLabel>
-              <DropdownMenuLabel className="text-xs">
-                {session?.user?.email}
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => router.push("/painel-pagamento")}
-                className="w-full text-center"
-              >
-                Painel de Pagamento
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => router.push("/configuracoes")}
-                className="w-full text-center"
-              >
-                Configurações
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => signOut()} asChild>
-                <Button variant={"destructive"} className="w-full">
-                  Sair
+          <div className="flex items-center gap-2 sm:hidden">
+            {session?.user.perfil === "test" && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Clock color="#2bff00" />
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  {<Countdown date={Date.now() + timeLeft * 1000} />}
+                </TooltipContent>
+              </Tooltip>
+            )}
+            <DropdownMenu>
+              <DropdownMenuTrigger className="sm:hidden" asChild>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="overflow-hidden rounded-full"
+                >
+                  <User className="h-5 w-5" />
+                  <span className="sr-only">User</span>
                 </Button>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="start"
+                className="w-44 mr-5 text-center flex flex-col items-center justify-center"
+              >
+                <DropdownMenuLabel className="text-xs">
+                  {session?.user?.name?.toUpperCase()}
+                </DropdownMenuLabel>
+                <DropdownMenuLabel className="text-xs">
+                  {session?.user?.email}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {session?.user?.perfil !== "test" && (
+                  <DropdownMenuItem
+                    onClick={() => router.push("/painel-pagamento")}
+                    className="w-full text-center"
+                  >
+                    Painel de Pagamento
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuItem
+                  onClick={() => router.push("/configuracoes")}
+                  className="w-full text-center"
+                >
+                  Configurações
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut()} asChild>
+                  <Button variant={"destructive"} className="w-full">
+                    Sair
+                  </Button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </header>
       </div>
     </>

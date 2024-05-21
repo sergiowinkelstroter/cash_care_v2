@@ -53,6 +53,7 @@ export const authOptions: NextAuthOptions = {
       let idUser: number | undefined;
       let perfil: string | undefined;
       let situacao: string | undefined;
+      let createdAt: Date | undefined;
 
       if (user) {
         const newUser = await db.user.findUnique({
@@ -64,10 +65,12 @@ export const authOptions: NextAuthOptions = {
         idUser = newUser?.id;
         perfil = newUser?.perfil;
         situacao = newUser?.situacao;
+        createdAt = newUser?.createdAt;
 
         token.userId = idUser;
         token.perfil = perfil;
         token.situacao = situacao;
+        token.createdAt = createdAt;
       }
 
       return token;
@@ -76,6 +79,7 @@ export const authOptions: NextAuthOptions = {
       session.user.id = token.userId;
       session.user.perfil = token.perfil;
       session.user.situacao = token.situacao;
+      session.user.createdAt = token.createdAt;
 
       return session;
     },

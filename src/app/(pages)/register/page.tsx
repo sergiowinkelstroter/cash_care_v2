@@ -43,7 +43,7 @@ export default function Register() {
         name: values.name,
         email: values.email,
         password: values.password,
-        perfil: "classic",
+        perfil: "test",
         fone: values.fone,
       });
       return res.data;

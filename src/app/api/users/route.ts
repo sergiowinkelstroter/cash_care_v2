@@ -38,8 +38,6 @@ export async function POST(request: NextRequest) {
 
   let passwordHash = await bcrypt.hash(password, 10);
 
-  console.log(fone);
-
   const newUser = await prisma.user.create({
     data: {
       name,

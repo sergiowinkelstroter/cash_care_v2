@@ -120,6 +120,7 @@ export function ModalEditUser({
                   <SelectItem value="admin">Admin</SelectItem>
                   <SelectItem value="basic">Basic</SelectItem>
                   <SelectItem value="classic">Classic</SelectItem>
+                  <SelectItem value="test">Test</SelectItem>
                 </SelectContent>
               </Select>
             )}

@@ -22,6 +22,8 @@ import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { MessageCircle } from "lucide-react";
 
 const perfilSchema = z.object({
   name: z.string().min(1, "O nome é obrigatório"),
@@ -32,6 +34,7 @@ const perfilSchema = z.object({
 export const Perfil = () => {
   const { toast } = useToast();
   const navigate = useRouter();
+  const { data: session } = useSession();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
 
@@ -98,6 +101,15 @@ export const Perfil = () => {
     );
   }
 
+  const handleContact = () => {
+    const phoneNumber = "5599991529825";
+    const message = "Olá, gostaria de renovar minha assinatura do Cash Care.";
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
   return (
     <Card className="mt-4 relative">
       <Dialog open={open} onOpenChange={setOpen}>
@@ -138,12 +150,19 @@ export const Perfil = () => {
           </CardContent>
 
           <CardFooter className="flex flex-col w-full items-stretch md:flex-row  md:justify-end gap-2">
-            <Link
-              href={"/painel-pagamento"}
-              className="border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 rounded-md text-center font-semibold text"
-            >
-              Painel de Pagamento
-            </Link>
+            {session?.user.perfil === "test" ? (
+              <Button variant="default" onClick={handleContact} className="">
+                <MessageCircle className="mr-2" size={16} />
+                Ativar assinatura
+              </Button>
+            ) : (
+              <Link
+                href={"/painel-pagamento"}
+                className="border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 rounded-md text-center font-semibold text"
+              >
+                Painel de Pagamento
+              </Link>
+            )}
             <DialogTrigger asChild>
               <Button variant="default">Alterar senha</Button>
             </DialogTrigger>

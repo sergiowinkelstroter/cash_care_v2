@@ -8,6 +8,7 @@ declare module "next-auth" {
       name: string | undefined;
       perfil: string | undefined;
       situacao: string | undefined;
+      createdAt: Date | undefined;
     };
   }
 
@@ -17,6 +18,7 @@ declare module "next-auth" {
     name: string | undefined;
     perfil: string | undefined;
     situacao: string | undefined;
+    createdAt: Date | undefined;
   }
 }
 
@@ -27,5 +29,6 @@ declare module "next-auth/jwt" {
     name: string | undefined;
     perfil: string | undefined;
     situacao: string | undefined;
+    createdAt: Date | undefined;
   }
 }

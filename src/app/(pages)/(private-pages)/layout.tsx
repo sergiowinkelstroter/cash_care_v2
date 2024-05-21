@@ -14,6 +14,9 @@ export default async function RootLayout({
   }
 
   if (session.user.situacao === "I") {
+    if (session.user.perfil === "test") {
+      redirect("/test-over");
+    }
     redirect("/blocked-user");
   }
 
