@@ -116,11 +116,16 @@ export default function Register() {
               </div>
             </CardContent>
             <CardFooter className="flex flex-col gap-2">
-              <Button className="w-full" disabled={isLoading}>
-                {isLoading ? "Carregando..." : "Cadastrar"}
-              </Button>
+              <div className="w-full flex gap-4">
+                <Button asChild className="w-full" variant={"outline"}>
+                  <Link href={"/"}>Voltar</Link>
+                </Button>
+                <Button className="w-full" disabled={isLoading}>
+                  {isLoading ? "Carregando..." : "Cadastrar"}
+                </Button>
+              </div>
               <p>
-                Já possui uma conta?{" "}
+                Ja possui uma conta?{" "}
                 <Link href="/login" className="underline">
                   Clique aqui
                 </Link>

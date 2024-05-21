@@ -240,6 +240,12 @@ export const Header = ({ session }: HeaderProps) => {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem
+                onClick={() => router.push("/painel-pagamento")}
+                className="w-full text-center"
+              >
+                Painel de Pagamento
+              </DropdownMenuItem>
+              <DropdownMenuItem
                 onClick={() => router.push("/configuracoes")}
                 className="w-full text-center"
               >
