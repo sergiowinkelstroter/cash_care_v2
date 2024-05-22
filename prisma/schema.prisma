@@ -23,6 +23,7 @@ model User {
   updatedAt      DateTime         @default(now()) @map(name: "updated_at")
   situacao       String           @default("A")
   fone           String           @default("")
+  notification   String           @default("I")
   Unit           Unit[]
   Movement       Movement[]
   Payable        Payable[]

@@ -28,7 +28,9 @@ import { MessageCircle } from "lucide-react";
 const perfilSchema = z.object({
   name: z.string().min(1, "O nome é obrigatório"),
   email: z.string().min(1, "O email é obrigatório"),
+  fone: z.string().optional(),
   perfil: z.string().optional(),
+  notification: z.boolean().optional(),
 });
 
 export const Perfil = () => {
@@ -54,6 +56,7 @@ export const Perfil = () => {
       name: data?.name ?? "",
       email: data?.email ?? "",
       perfil: data?.perfil ?? "",
+      fone: data?.fone ?? "",
     },
   });
 
@@ -90,6 +93,7 @@ export const Perfil = () => {
       setValue("name", data?.name ?? "");
       setValue("email", data?.email ?? "");
       setValue("perfil", data?.perfil ?? "");
+      setValue("fone", data?.fone ?? "");
     }
   }, [isLoading, data, setValue]);
 
@@ -120,7 +124,7 @@ export const Perfil = () => {
           </div>
         </CardHeader>
         <form onSubmit={handleSubmit(handleAlterarPerfil)}>
-          <CardContent className="grid md:grid-cols-3 gap-4">
+          <CardContent className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
             <div>
               <Label>Nome</Label>
               <Input
@@ -139,6 +143,14 @@ export const Perfil = () => {
               />
             </div>
             <div>
+              <Label>Telefone</Label>
+              <Input
+                placeholder="Telefone"
+                defaultValue={data?.fone}
+                {...register("fone")}
+              />
+            </div>
+            <div>
               <Label>Perfil</Label>
               <Input
                 placeholder="Perfil"
@@ -149,27 +161,35 @@ export const Perfil = () => {
             </div>
           </CardContent>
 
-          <CardFooter className="flex flex-col w-full items-stretch md:flex-row  md:justify-end gap-2">
-            {session?.user.perfil === "test" ? (
-              <Button variant="default" onClick={handleContact} className="">
-                <MessageCircle className="mr-2" size={16} />
-                Ativar assinatura
-              </Button>
-            ) : (
-              <Link
-                href={"/painel-pagamento"}
-                className="border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 rounded-md text-center font-semibold text"
-              >
-                Painel de Pagamento
-              </Link>
-            )}
-            <DialogTrigger asChild>
-              <Button variant="default">Alterar senha</Button>
-            </DialogTrigger>
+          <CardFooter className="flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between md:items-center w-full">
+            <div className="flex justify-start items-center gap-2">
+              <Input
+                type="checkbox"
+                className="h-5 w-5"
+                defaultChecked={data?.notification}
+                {...register("notification")}
+              />
+              <span className="">Receber notificações</span>
+            </div>
+            <div className="flex flex-col md:flex-row md:items-center gap-3 w-full md:w-auto">
+              {session?.user.perfil === "test" ? (
+                <Button variant="default" onClick={handleContact} className="">
+                  <MessageCircle className="mr-2" size={16} />
+                  Ativar assinatura
+                </Button>
+              ) : (
+                <Button asChild>
+                  <Link href={"/painel-pagamento"}>Painel de Pagamento</Link>
+                </Button>
+              )}
+              <DialogTrigger asChild>
+                <Button variant="default">Alterar senha</Button>
+              </DialogTrigger>
 
-            <Button type="submit" disabled={formState.isSubmitting}>
-              Salvar alterações
-            </Button>
+              <Button type="submit" disabled={formState.isSubmitting}>
+                Salvar alterações
+              </Button>
+            </div>
           </CardFooter>
         </form>
         <ModalAlterarSenha setOpen={setOpen} />

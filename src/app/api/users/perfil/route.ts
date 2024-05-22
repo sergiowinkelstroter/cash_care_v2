@@ -17,6 +17,8 @@ export async function GET() {
     name: user?.name,
     email: user?.email,
     perfil: user?.perfil,
+    fone: user?.fone,
+    notification: user?.notification === "A" ? true : false,
   };
 
   return NextResponse.json(perfil, { status: 200 });
@@ -28,7 +30,7 @@ export async function PATCH(request: NextRequest) {
 
   const body = await request.json();
 
-  const { name, email } = body;
+  const { name, email, fone, notification } = body;
 
   const user = await prisma.user.update({
     where: {
@@ -37,6 +39,8 @@ export async function PATCH(request: NextRequest) {
     data: {
       name,
       email,
+      fone,
+      notification: notification === true ? "A" : "I",
     },
   });
 
