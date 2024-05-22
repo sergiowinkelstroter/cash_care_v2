@@ -107,7 +107,7 @@ export const Perfil = () => {
 
   const handleContact = () => {
     const phoneNumber = "5599991529825";
-    const message = "Olá, gostaria de renovar minha assinatura do Cash Care.";
+    const message = "Olá, gostaria de ativar minha assinatura do Cash Care.";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
       message
     )}`;
@@ -162,18 +162,27 @@ export const Perfil = () => {
           </CardContent>
 
           <CardFooter className="flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between md:items-center w-full">
-            <div className="flex justify-start items-center gap-2">
-              <Input
-                type="checkbox"
-                className="h-5 w-5"
-                defaultChecked={data?.notification}
-                {...register("notification")}
-              />
-              <span className="">Receber notificações</span>
-            </div>
+            {session?.user.perfil === "test" ? (
+              <div></div>
+            ) : (
+              <div className="flex justify-start items-center gap-2">
+                <Input
+                  type="checkbox"
+                  className="h-5 w-5"
+                  defaultChecked={data?.notification}
+                  {...register("notification")}
+                />
+                <span className="">Receber notificações</span>
+              </div>
+            )}
             <div className="flex flex-col md:flex-row md:items-center gap-3 w-full md:w-auto">
               {session?.user.perfil === "test" ? (
-                <Button variant="default" onClick={handleContact} className="">
+                <Button
+                  type="button"
+                  variant="default"
+                  onClick={handleContact}
+                  className=""
+                >
                   <MessageCircle className="mr-2" size={16} />
                   Ativar assinatura
                 </Button>
