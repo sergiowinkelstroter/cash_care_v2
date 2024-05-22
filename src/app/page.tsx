@@ -226,7 +226,7 @@ export default function Home() {
               <div className="flex items-center justify-center flex-col">
                 <Mail size={64} className="text-gray-500 mb-4" />
                 <p className="text-lg font-semibold mb-2">E-mail</p>
-                <p className="text-gray-600">winksousa0@gmail.com</p>
+                <p className="text-gray-600">cashcare.cloud@gmail.com</p>
               </div>
               <div className="flex items-center justify-center flex-col">
                 <Phone size={64} className="text-gray-500 mb-4" />

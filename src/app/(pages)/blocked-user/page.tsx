@@ -8,10 +8,7 @@ export default function BlockedUser() {
   const { data: session } = useSession();
   async function handleSignOut() {
     await signOut({
-      callbackUrl:
-        process.env.NODE_ENV === "development"
-          ? "http://localhost:3000"
-          : "https://cashcare.cloud",
+      redirect: false,
     });
     redirect("/login");
   }

@@ -7,6 +7,7 @@ import bcrypt from "bcrypt";
 export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
+    signOut: "/",
   },
   adapter: PrismaAdapter(db as any),
   providers: [

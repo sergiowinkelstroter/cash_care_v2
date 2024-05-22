@@ -90,7 +90,7 @@ export default function Register() {
           </CardHeader>
           <form onSubmit={handleSubmit(onSubmit)}>
             <CardContent className="grid sm:grid-cols-2 gap-4">
-              <div className="">
+              <div className="sm:col-span-2">
                 <Label>Nome</Label>
                 <Input type="text" required {...register("name")} />
               </div>
@@ -116,15 +116,15 @@ export default function Register() {
               </div>
             </CardContent>
             <CardFooter className="flex flex-col gap-2">
-              <div className="w-full flex gap-4">
-                <Button asChild className="w-full" variant={"outline"}>
+              <div className="w-full flex gap-2">
+                <Button asChild className="w-full" variant={"secondary"}>
                   <Link href={"/"}>Voltar</Link>
                 </Button>
                 <Button className="w-full" disabled={isLoading}>
                   {isLoading ? "Carregando..." : "Cadastrar"}
                 </Button>
               </div>
-              <p>
+              <p className="text-sm text-gray-500">
                 Ja possui uma conta?{" "}
                 <Link href="/login" className="underline">
                   Clique aqui

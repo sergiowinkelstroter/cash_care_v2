@@ -37,7 +37,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { api } from "@/lib/axios";
 import { toZonedTime } from "date-fns-tz";
 
@@ -49,6 +49,13 @@ export const Header = ({ session }: HeaderProps) => {
   const router = useRouter();
   const [timeLeft, setTimeLeft] = useState(0);
   const timeZone = "America/Sao_Paulo";
+
+  async function handleLogout() {
+    await signOut({
+      redirect: false,
+    });
+    redirect("/");
+  }
 
   useEffect(() => {
     if (session?.user && session.user.createdAt) {
@@ -62,12 +69,7 @@ export const Header = ({ session }: HeaderProps) => {
         setTimeLeft(secondsLeft);
       } else {
         api.put(`/users?id=${session.user.id}&situacao=A`).then(() => {
-          signOut({
-            callbackUrl:
-              process.env.NODE_ENV === "development"
-                ? "http://localhost:3000"
-                : "https://cashcare.cloud",
-          });
+          handleLogout();
           router.push("/");
         });
       }
@@ -204,17 +206,7 @@ export const Header = ({ session }: HeaderProps) => {
               >
                 Configurações
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() =>
-                  signOut({
-                    callbackUrl:
-                      process.env.NODE_ENV === "development"
-                        ? "http://localhost:3000"
-                        : "https://cashcare.cloud",
-                  })
-                }
-                asChild
-              >
+              <DropdownMenuItem onClick={() => handleLogout()} asChild>
                 <Button variant={"destructive"} className="w-full">
                   Sair
                 </Button>
@@ -318,17 +310,7 @@ export const Header = ({ session }: HeaderProps) => {
                 >
                   Configurações
                 </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() =>
-                    signOut({
-                      callbackUrl:
-                        process.env.NODE_ENV === "development"
-                          ? "http://localhost:3000"
-                          : "https://cashcare.cloud",
-                    })
-                  }
-                  asChild
-                >
+                <DropdownMenuItem onClick={() => handleLogout()} asChild>
                   <Button variant={"destructive"} className="w-full">
                     Sair
                   </Button>

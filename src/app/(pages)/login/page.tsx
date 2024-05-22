@@ -113,15 +113,15 @@ export default function Login() {
               </div>
             </CardContent>
             <CardFooter className="flex flex-col gap-2">
-              <div className="w-full flex gap-4">
-                <Button asChild className="w-full" variant={"outline"}>
+              <div className="w-full flex gap-2">
+                <Button asChild className="w-full" variant={"secondary"}>
                   <Link href={"/"}>Voltar</Link>
                 </Button>
                 <Button className="w-full" disabled={isLoading}>
                   {isLoading ? "Carregando..." : "Entrar"}
                 </Button>
               </div>
-              <p>
+              <p className="text-sm text-gray-500">
                 Não possui uma conta?{" "}
                 <Link href="/register" className="underline">
                   Clique aqui
