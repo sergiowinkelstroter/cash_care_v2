@@ -50,11 +50,13 @@ export const Header = ({ session }: HeaderProps) => {
   const [timeLeft, setTimeLeft] = useState(0);
   const timeZone = "America/Sao_Paulo";
 
-  async function handleLogout() {
-    await signOut({
+  function handleLogout() {
+    signOut({
       redirect: false,
+    }).then(() => {
+      router.push("/");
     });
-    redirect("/");
+    router.push("/");
   }
 
   useEffect(() => {
@@ -69,7 +71,11 @@ export const Header = ({ session }: HeaderProps) => {
         setTimeLeft(secondsLeft);
       } else {
         api.put(`/users?id=${session.user.id}&situacao=A`).then(() => {
-          handleLogout();
+          signOut({
+            redirect: false,
+          }).then(() => {
+            router.push("/");
+          });
           router.push("/");
         });
       }

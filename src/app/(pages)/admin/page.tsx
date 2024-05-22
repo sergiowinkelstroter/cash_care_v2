@@ -91,14 +91,12 @@ export default function Admin() {
     redirect("/");
   }
 
-  async function handleSignOut() {
-    await signOut({
-      callbackUrl:
-        process.env.NODE_ENV === "development"
-          ? "http://localhost:3000"
-          : "https://cashcare.cloud",
+  function handleSignOut() {
+    signOut({
+      redirect: false,
+    }).then(() => {
+      redirect("/login");
     });
-    redirect("/login");
   }
 
   const { data: users } = useQuery("users", async () => {

@@ -6,11 +6,12 @@ import { redirect } from "next/navigation";
 
 export default function BlockedUser() {
   const { data: session } = useSession();
-  async function handleSignOut() {
-    await signOut({
+  function handleSignOut() {
+    signOut({
       redirect: false,
+    }).then(() => {
+      redirect("/login");
     });
-    redirect("/login");
   }
   if (!session) {
     redirect("/");
@@ -25,7 +26,7 @@ export default function BlockedUser() {
         </p>
         <Button
           variant="destructive"
-          onClick={async () => await handleSignOut()}
+          onClick={() => handleSignOut()}
           className="w-full"
         >
           Sair
