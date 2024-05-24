@@ -87,9 +87,9 @@ export default function Admin() {
     });
   }
 
-  if (!session) {
-    redirect("/");
-  }
+  // if (!session) {
+  //   redirect("/");
+  // }
 
   function handleSignOut() {
     signOut({
