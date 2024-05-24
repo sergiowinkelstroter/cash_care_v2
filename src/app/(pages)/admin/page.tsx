@@ -118,6 +118,7 @@ export default function Admin() {
         <TabsList>
           <TabsTrigger value="1">Lista</TabsTrigger>
           <TabsTrigger value="2">Formulário</TabsTrigger>
+          <TabsTrigger value="3">Backups</TabsTrigger>
         </TabsList>
 
         <>
