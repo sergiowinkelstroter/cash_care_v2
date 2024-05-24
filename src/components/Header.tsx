@@ -50,12 +50,8 @@ export const Header = ({ session }: HeaderProps) => {
   const [timeLeft, setTimeLeft] = useState(0);
   const timeZone = "America/Sao_Paulo";
 
-  function handleLogout() {
-    signOut({
-      redirect: false,
-    }).then(() => {
-      router.push("/");
-    });
+  async function handleLogout() {
+    await signOut();
     router.push("/");
   }
 

@@ -91,12 +91,8 @@ export default function Admin() {
   //   redirect("/");
   // }
 
-  function handleSignOut() {
-    signOut({
-      redirect: false,
-    }).then(() => {
-      redirect("/login");
-    });
+  async function handleSignOut() {
+    await signOut();
   }
 
   const { data: users } = useQuery("users", async () => {

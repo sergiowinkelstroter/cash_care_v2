@@ -6,12 +6,8 @@ import { redirect } from "next/navigation";
 
 export default function TestOver() {
   const { data: session } = useSession();
-  function handleSignOut() {
-    signOut({
-      redirect: false,
-    }).then(() => {
-      redirect("/login");
-    });
+  async function handleSignOut() {
+    await signOut();
   }
   if (!session) {
     redirect("/");
