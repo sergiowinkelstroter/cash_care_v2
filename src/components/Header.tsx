@@ -10,6 +10,7 @@ import {
   Clock,
   DollarSign,
   Home,
+  MessageCircleQuestion,
   PanelLeft,
   Settings,
   ShoppingCart,
@@ -136,6 +137,18 @@ export const Header = ({ session }: HeaderProps) => {
               </TooltipContent>
             </Tooltip>
           )}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link
+                href="/faq"
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+              >
+                <MessageCircleQuestion className="h-5 w-5" />
+                <span className="sr-only">FAQ</span>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="right">FAQ</TooltipContent>
+          </Tooltip>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button

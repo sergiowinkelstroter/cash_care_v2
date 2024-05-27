@@ -84,8 +84,8 @@ export default function Faq() {
               <CardHeader>
                 <CardTitle>Perguntas frequentes</CardTitle>
                 <CardDescription>
-                  Aqui você encontrará as respostas para as perguntas mais
-                  frequentes sobre a aplicação.
+                  Aqui você encontrará as respostas para as perguntas que podem
+                  sugir durante o uso do sistema.
                 </CardDescription>
               </CardHeader>
               <CardContent className="">
