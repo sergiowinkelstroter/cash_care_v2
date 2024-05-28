@@ -12,7 +12,7 @@ export default async function Painel() {
 
   return (
     <PageContainer>
-      <MenuClassic />
+      <MenuClassic userId={session.user.id} />
     </PageContainer>
   );
 }

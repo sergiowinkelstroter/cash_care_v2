@@ -28,7 +28,10 @@ import { MessageCircle } from "lucide-react";
 const perfilSchema = z.object({
   name: z.string().min(1, "O nome é obrigatório"),
   email: z.string().min(1, "O email é obrigatório"),
-  fone: z.string().optional(),
+  fone: z
+    .string()
+    .regex(/^\(\d{2}\) \d{5}-\d{4}$/)
+    .optional(),
   perfil: z.string().optional(),
   notification: z.boolean().optional(),
 });
@@ -143,7 +146,12 @@ export const Perfil = () => {
               />
             </div>
             <div>
-              <Label>Telefone</Label>
+              <Label>
+                Telefone {""}
+                <span className="text-xs text-gray-500">
+                  Ex:(11) 23456-7890
+                </span>
+              </Label>
               <Input
                 placeholder="Telefone"
                 defaultValue={data?.fone}
@@ -187,7 +195,7 @@ export const Perfil = () => {
                   Ativar assinatura
                 </Button>
               ) : (
-                <Button asChild>
+                <Button asChild variant={"outline"}>
                   <Link href={"/painel-pagamento"}>Painel de Pagamento</Link>
                 </Button>
               )}

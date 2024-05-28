@@ -29,6 +29,7 @@ import { inverterData } from "@/utils/inverterData";
 import { Installment } from "@/types/Installment";
 import { Separator } from "./ui/separator";
 import { MenuGrafico, VariationData } from "./MenuGraficos";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 interface MenuDataProps {
   data: {
@@ -41,9 +42,11 @@ interface MenuDataProps {
     variations: VariationData[];
     monthtoday: string;
   };
+  unit: string;
+  userId: number | undefined;
 }
 
-export const MenuData = ({ data }: MenuDataProps) => {
+export const MenuData = ({ data, unit, userId }: MenuDataProps) => {
   const tabledata: Transaction[] =
     data && data.transactions ? data.transactions : [];
 
@@ -91,13 +94,31 @@ export const MenuData = ({ data }: MenuDataProps) => {
               <CardDescription></CardDescription>
             </div>
             <div className="flex items-center justify-center gap-2">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    size="sm"
+                    className="flex gap-1"
+                    onClick={() =>
+                      window.open(
+                        `/pdf/movimentacoes/${userId}/${data.monthtoday}/${unit}/relatorio-movimentacoes`,
+                        "_blank"
+                      )
+                    }
+                  >
+                    <FileUp className="" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="left">Exportar</TooltipContent>
+              </Tooltip>
+
               <Button asChild size="sm" className="flex  gap-1 ">
                 <Link href="/movimentacoes">
                   <span className="sr-only sm:not-sr-only">Ver Tudo</span>
                   <ArrowUpRight className="h-3.5 w-3.5" />
                 </Link>
               </Button>
-              <div></div>
             </div>
           </CardHeader>
           <CardContent className="max-h-[300px] overflow-auto">
@@ -105,17 +126,39 @@ export const MenuData = ({ data }: MenuDataProps) => {
           </CardContent>
         </Card>
         <Card className="w-[350px] sm:w-full">
-          <CardHeader className="flex flex-row items-center">
+          <CardHeader className="flex flex-row items-start justify-between">
             <div className="grid gap-2">
               <CardTitle>Contas a pagar</CardTitle>
-              <CardDescription>Contas a pagar do mês corrente.</CardDescription>
+              <CardDescription className="hidden sm:block">
+                Contas a pagar do mês corrente.
+              </CardDescription>
             </div>
-            <Button asChild size="sm" className="flex  gap-1 ml-auto">
-              <Link href="/movimentacoes">
-                <span className="sr-only sm:not-sr-only">Ver Tudo</span>
-                <ArrowUpRight className="h-3.5 w-3.5" />
-              </Link>
-            </Button>
+            <div className="flex gap-1">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    size="sm"
+                    className="flex gap-1"
+                    onClick={() =>
+                      window.open(
+                        `/pdf/contas-a-pagar/${userId}/${data.monthtoday}/${unit}/relatorio-contas-a-pagar`,
+                        "_blank"
+                      )
+                    }
+                  >
+                    <FileUp className="" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="left">Exportar</TooltipContent>
+              </Tooltip>
+              <Button asChild size="sm" className="flex  gap-1 ml-auto">
+                <Link href="/movimentacoes">
+                  <span className="sr-only sm:not-sr-only">Ver Tudo</span>
+                  <ArrowUpRight className="h-3.5 w-3.5" />
+                </Link>
+              </Button>
+            </div>
           </CardHeader>
           <CardContent className="flex flex-col gap-2 max-h-[300px] overflow-auto">
             {data &&

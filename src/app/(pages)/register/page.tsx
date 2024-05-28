@@ -23,15 +23,21 @@ import { z } from "zod";
 const registerSchema = z.object({
   name: z.string().min(1, "O nome é obrigatório"),
   email: z.string().min(1, "O email é obrigatório"),
-  fone: z.string().min(1, "O telefone é obrigatório"),
+  fone: z
+    .string()
+    .min(1, "O telefone é obrigatório")
+    .regex(/^\(\d{2}\) \d{5}-\d{4}$/),
   password: z.string().min(1, "A senha é obrigatória"),
   confirmPassword: z.string().min(1, "A confirmação da senha é obrigatória"),
 });
 
 export default function Register() {
-  const { register, reset, handleSubmit } = useForm<
-    z.infer<typeof registerSchema>
-  >({
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
   });
   const { toast } = useToast();
@@ -99,8 +105,19 @@ export default function Register() {
                 <Input type="email" required {...register("email")} />
               </div>
               <div>
-                <Label>Telefone</Label>
-                <Input type="text" required {...register("fone")} />
+                <Label>
+                  Telefone{" "}
+                  <span className="text-xs text-gray-500">
+                    Ex:(11) 23456-7890
+                  </span>
+                </Label>
+                <Input
+                  type="text"
+                  required
+                  {...register("fone")}
+                  // placeholder="(XX) 9XXXX-XXXX"
+                />
+                {/* <span>{errors?.fone?.message}</span> */}
               </div>
               <div>
                 <Label>Senha</Label>
@@ -125,7 +142,7 @@ export default function Register() {
                 </Button>
               </div>
               <p className="text-sm text-gray-500">
-                Ja possui uma conta?{" "}
+                Já possui uma conta?{" "}
                 <Link href="/login" className="underline">
                   Clique aqui
                 </Link>

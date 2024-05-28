@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../inverterData.js"></script>
+    <title>Movimentações</title>
+
+    <style>
+      * {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13.8px;
+      }
+
+      .page {
+        page-break-inside: avoid;
+      }
+
+      .title,
+      .title * {
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+
+      .capitalize {
+        text-transform: capitalize;
+      }
+
+      .justificado {
+        text-align: justify;
+      }
+
+      .text-xs {
+        font-size: 14px;
+      }
+
+      .border {
+        border: 1px solid #000;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border: 1px solid #000;
+        padding: 3px;
+        font-size: 12px;
+      }
+
+      th {
+        background-color: #f2f2f2;
+        page-break-inside: avoid;
+      }
+
+      tr,
+      td {
+        page-break-inside: avoid;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      tr:hover {
+        background-color: #ddd;
+      }
+
+      .mb-10 {
+        margin-bottom: 20px;
+      }
+
+      .text-right {
+        text-align: right;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      .font-bold {
+        font-weight: bold;
+      }
+
+      .pago {
+        font-weight: bold;
+        background-color: #adffad;
+      }
+
+      .aberto {
+        font-weight: bold;
+        background-color: #ffc1c1;
+      }
+
+      .font-normal {
+        font-weight: normal;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page justificado">
+      <div class="flex gap-36 items-center">
+        <div><img src="/logo.png" alt="" /></div>
+        <div class="title">RELATÓRIO DE MOVIMENTAÇÕES</div>
+      </div>
+      <div class="flex justify-between items-center mt-8 mb-4">
+        <div>
+          Unidade:
+          <b><%= locals.unit %></b>
+        </div>
+        <div>
+          Período:
+          <b><%= locals.month %></b>
+        </div>
+      </div>
+
+      <% if (locals.movements_entradas && locals.movements_entradas.length > 0)
+      { %>
+      <div class="mb-10">
+        <h2 class="text-center p-1 pago">Entradas</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th class="text-center">Categoria</th>
+              <th class="text-center">Data</th>
+              <th class="text-center">Método Pagamento</th>
+              <th class="text-center">Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (locals.movements_entradas && locals.movements_entradas.length
+            > 0) { %> <% locals.movements_entradas.forEach(movement => { %>
+            <tr>
+              <td><%= movement.description %></td>
+              <td class="capitalize text-center"><%= movement.category %></td>
+              <td class="text-center"><%= movement.formatted_date %></td>
+              <td class="capitalize text-center">
+                <%= movement.paymentMethod %>
+              </td>
+              <td class="text-right"><%= movement.formatted_value %></td>
+            </tr>
+            <% }) %>
+            <tr style="background-color: lightgray">
+              <td colspan="3"></td>
+              <td class="text-center font-bold">TOTAL</td>
+              <td class="text-right font-bold">
+                <% let totalentradas = 0; %> <%
+                locals.movements_entradas.forEach(movement => { %> <%
+                totalentradas +=
+                parseFloat(movement.formatted_value.replace(',', '.')); %> <% })
+                %>R$ <%= totalentradas.toFixed(2) %>
+              </td>
+            </tr>
+            <% } else { %>
+            <tr>
+              <td colspan="6">Nenhuma entrada encontrada</td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+      <% } %> <% if (locals.movements_saidas && locals.movements_saidas.length >
+      0) { %>
+      <div>
+        <h2 class="text-center p-1 aberto">Saídas</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Descrição</th>
+              <th class="text-center">Categoria</th>
+              <th class="text-center">Data</th>
+              <th class="text-center">Método Pagamento</th>
+              <th class="text-right">Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (locals.movements_saidas && locals.movements_saidas.length >
+            0) { %> <% locals.movements_saidas.forEach(movement => { %>
+            <tr>
+              <td><%= movement.description %></td>
+              <td class="capitalize text-center"><%= movement.category %></td>
+              <td class="text-center"><%= movement.formatted_date %></td>
+              <td class="capitalize text-center">
+                <%= movement.paymentMethod %>
+              </td>
+              <td class="text-right"><%= movement.formatted_value %></td>
+            </tr>
+            <% }) %>
+            <tr style="background-color: lightgray">
+              <td colspan="3"></td>
+              <td class="text-center font-bold">TOTAL</td>
+              <td class="text-right font-bold">
+                <% let totalSaidas = 0; %> <%
+                locals.movements_saidas.forEach(movement => { %> <% totalSaidas
+                += parseFloat(movement.formatted_value.replace(',', '.')); %> <%
+                }) %>R$ <%= totalSaidas.toFixed(2) %>
+              </td>
+            </tr>
+            <% } else { %>
+            <tr>
+              <td colspan="6">Nenhuma saída encontrada</td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+      <% } %>
+    </div>
+  </body>
+</html>

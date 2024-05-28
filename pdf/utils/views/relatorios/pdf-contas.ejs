@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../inverterData.js"></script>
+    <title>Movimentações</title>
+
+    <style>
+      * {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13.8px;
+      }
+
+      .page {
+        page-break-inside: avoid;
+      }
+
+      .title,
+      .title * {
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 15px;
+      }
+
+      .capitalize {
+        text-transform: capitalize;
+      }
+
+      .justificado {
+        text-align: justify;
+      }
+
+      .text-xs {
+        font-size: 14px;
+      }
+
+      .border {
+        border: 1px solid #000;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border: 1px solid #000;
+        padding: 3px;
+        font-size: 12px;
+      }
+
+      th {
+        background-color: #f2f2f2;
+        page-break-inside: avoid;
+      }
+
+      tr,
+      td {
+        page-break-inside: avoid;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      tr:hover {
+        background-color: #ddd;
+      }
+
+      .mb-10 {
+        margin-bottom: 20px;
+      }
+
+      .text-right {
+        text-align: right;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      .font-bold {
+        font-weight: bold;
+      }
+
+      .pago {
+        font-weight: bold;
+        background-color: #adffad;
+      }
+
+      .aberto {
+        font-weight: bold;
+        background-color: #ffc1c1;
+      }
+
+      .font-normal {
+        font-weight: normal;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page justificado">
+      <div class="flex gap-36 items-center">
+        <div><img src="/logo.png" alt="" /></div>
+        <div class="title">RELATÓRIO DE CONTAS A PAGAR</div>
+      </div>
+      <div class="flex justify-between items-center mt-8 mb-4">
+        <div>
+          Unidade:
+          <b><%= locals.unit %></b>
+        </div>
+        <div>
+          Período:
+          <b><%= locals.month %></b>
+        </div>
+      </div>
+
+      <% if (locals.installments && locals.installments.length > 0) { %>
+      <table>
+        <thead>
+          <tr>
+            <th>Descrição</th>
+            <th class="text-center">Parcela</th>
+            <th class="text-center">Data</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% locals.installments.forEach(installment => { %>
+          <tr>
+            <td><%= installment.description %></td>
+            <td class="text-center"><%= installment.installmentNumber %></td>
+            <td class="text-center"><%= installment.formatted_date %></td>
+            <td
+              class="text-center <%= installment.status === 'P' ? 'pago' : 'aberto' %>"
+            >
+              <%= installment.status %>
+            </td>
+            <td class="text-right"><%= installment.formatted_value %></td>
+          </tr>
+          <% }) %>
+          <tr style="background-color: lightgray">
+            <td colspan="3"></td>
+            <td class="text-center font-bold">TOTAL</td>
+            <td class="text-right font-bold">
+              <% let total = 0; %> <% locals.installments.forEach(installment =>
+              { %> <% total +=
+              parseFloat(installment.formatted_value.replace(',', '.')); %> <%
+              }) %>R$ <%= total.toFixed(2) %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <% } else { %>
+      <p>Nenhuma conta encontrada</p>
+      <% } %>
+    </div>
+  </body>
+</html>

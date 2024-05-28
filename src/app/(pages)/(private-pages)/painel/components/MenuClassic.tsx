@@ -26,7 +26,7 @@ interface Data {
   monthtoday: string;
 }
 
-export function MenuClassic() {
+export function MenuClassic({ userId }: { userId: number | undefined }) {
   const currentDate = new Date().toISOString().slice(0, 7);
   const [selectedMonth, setSelectedMonth] = useState(currentDate);
   const { toast } = useToast();
@@ -158,7 +158,7 @@ export function MenuClassic() {
         </div>
         <>
           <TabsContent value={selectedUnit}>
-            <MenuData data={data} />
+            <MenuData data={data} unit={selectedUnit} userId={userId} />
           </TabsContent>
         </>
       </div>

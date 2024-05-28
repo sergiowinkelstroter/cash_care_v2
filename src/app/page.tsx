@@ -26,6 +26,8 @@ import {
   Mail,
   X,
   Menu,
+  Bell,
+  FileText,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -132,7 +134,7 @@ export default function Home() {
                   Sobre o Sistema
                 </h3>
                 <p className="text-sm md:text-lg text-justify">
-                  O Cash Care é um sistema inovador de controle financeiro,
+                  Cash Care é um sistema inovador de controle financeiro,
                   desenvolvido para oferecer uma solução completa e acessível
                   para indivíduos e pequenas empresas. Nosso objetivo é
                   transformar a maneira como você gerencia suas finanças,
@@ -149,7 +151,8 @@ export default function Home() {
             <h3 className="text-2xl md:text-4xl font-bold  text-center mb-12">
               Como a Cash Care pode te ajudar?
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              {/* <div className="flex flex-col gap-4"> */}
               <Card className="bg-black/90 p-6 rounded-lg shadow-md">
                 <CardHeader className="flex flex-col items-center text-center">
                   <div className="bg-white p-4 rounded-full mb-4">
@@ -189,6 +192,34 @@ export default function Home() {
                   <CardDescription className="text-gray-300">
                     Organize contas com parcelas e acompanhe pagamentos de forma
                     eficiente.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex justify-center items-center"></CardContent>
+              </Card>
+              <Card className="bg-black/90 p-6 rounded-lg shadow-md">
+                <CardHeader className="flex flex-col items-center text-center">
+                  <div className="bg-white p-4 rounded-full mb-4">
+                    <Bell className="text-black" size={32} />
+                  </div>
+                  <CardTitle className="text-xl font-bold text-white">
+                    Notificações via WhatsApp
+                  </CardTitle>
+                  <CardDescription className="text-gray-300">
+                    Receba notificações sobre as contas a pagar do dia.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex justify-center items-center"></CardContent>
+              </Card>
+              <Card className="bg-black/90 p-6 rounded-lg shadow-md">
+                <CardHeader className="flex flex-col items-center text-center">
+                  <div className="bg-white p-4 rounded-full mb-4">
+                    <FileText className="text-black" size={32} />
+                  </div>
+                  <CardTitle className="text-xl font-bold text-white">
+                    Relatórios em PDF
+                  </CardTitle>
+                  <CardDescription className="text-gray-300">
+                    Gere relatórios mensais para uma análise detalhada.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex justify-center items-center"></CardContent>
@@ -247,7 +278,7 @@ export default function Home() {
               Pronto para transformar sua gestão financeira?
             </h3>
             <p className="text-sm md:text-lg mb-8">
-              Inscreva-se agora para uma demonstração gratuita e descubra como o
+              Inscreva-se agora para uma demonstração gratuita e descubra como a
               Cash Care pode ajudar você a alcançar o controle total sobre suas
               finanças.
             </p>
@@ -262,9 +293,7 @@ export default function Home() {
         {/* <section id="beneficios"></section> */}
       </main>
       <footer className="bg-black/90 py-4 text-center">
-        <p className="text-gray-600 text-sm md:text-base ">
-          © 2024 Cash Care. Todos os direitos reservados.
-        </p>
+        <p className="text-gray-600 text-sm md:text-base ">Cash Care</p>
       </footer>
     </div>
   );
