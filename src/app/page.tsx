@@ -15,6 +15,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
   CircleDollarSign,
   Settings,
   TrendingUp,
@@ -28,6 +33,8 @@ import {
   Menu,
   Bell,
   FileText,
+  Hourglass,
+  Clock,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,7 +42,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="bg-white">
-      <header className="bg-white fixed inset-x-0 top-0">
+      <header className="bg-white fixed z-50 inset-x-0 top-0">
         <div className="container flex py-4 justify-between items-center">
           <Link href="/#home">
             <CircleDollarSign size={32} />
@@ -151,7 +158,7 @@ export default function Home() {
             <h3 className="text-2xl md:text-4xl font-bold  text-center mb-12">
               Como a Cash Care pode te ajudar?
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
               {/* <div className="flex flex-col gap-4"> */}
               <Card className="bg-black/90 p-6 rounded-lg shadow-md">
                 <CardHeader className="flex flex-col items-center text-center">
@@ -196,8 +203,18 @@ export default function Home() {
                 </CardHeader>
                 <CardContent className="flex justify-center items-center"></CardContent>
               </Card>
-              <Card className="bg-black/90 p-6 rounded-lg shadow-md">
+              <Card className="relative bg-black/90 p-6 rounded-lg shadow-md">
                 <CardHeader className="flex flex-col items-center text-center">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="absolute top-0 left-0 bg-white rounded-b-md p-2 font-semibold flex gap-1">
+                        <Hourglass />
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent side="right">
+                      <p>Em Breve</p>
+                    </TooltipContent>
+                  </Tooltip>
                   <div className="bg-white p-4 rounded-full mb-4">
                     <Bell className="text-black" size={32} />
                   </div>
