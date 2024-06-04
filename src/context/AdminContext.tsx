@@ -7,6 +7,10 @@ interface AdminContextData {
   setOpenUserDrawer: (open: boolean) => void;
   openEditUser: boolean;
   setOpenEditUser: (open: boolean) => void;
+  openBackupDrawer: boolean;
+  setOpenBackupDrawer: (open: boolean) => void;
+  openRestoreDrawer: boolean;
+  setOpenRestoreDrawer: (open: boolean) => void;
 }
 
 export const AdminContext = createContext({} as AdminContextData);
@@ -14,6 +18,9 @@ export const AdminContext = createContext({} as AdminContextData);
 export const AdminProvider = ({ children }: { children: React.ReactNode }) => {
   const [openUserDrawer, setOpenUserDrawer] = useState(false);
   const [openEditUser, setOpenEditUser] = useState(false);
+  const [openBackupDrawer, setOpenBackupDrawer] = useState(false);
+  const [openRestoreDrawer, setOpenRestoreDrawer] = useState(false);
+
   return (
     <AdminContext.Provider
       value={{
@@ -21,6 +28,10 @@ export const AdminProvider = ({ children }: { children: React.ReactNode }) => {
         setOpenUserDrawer,
         openEditUser,
         setOpenEditUser,
+        openBackupDrawer,
+        setOpenBackupDrawer,
+        openRestoreDrawer,
+        setOpenRestoreDrawer,
       }}
     >
       {children}

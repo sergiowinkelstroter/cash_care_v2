@@ -26,15 +26,15 @@ export function useTransaction() {
     try {
       await deleteTransaction(id);
       toast({
-        title: "Transação deletada",
-        description: "Transação deletada com sucesso",
+        title: "Movimentação deletada",
+        description: "Movimentação deletada com sucesso",
         color: "green",
       });
     } catch (err) {
       console.log(err);
       toast({
         title: "Erro",
-        description: "Erro ao deletar transação",
+        description: "Erro ao deletar movimentação",
         variant: "destructive",
       });
     }

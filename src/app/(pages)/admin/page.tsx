@@ -1,11 +1,22 @@
 "use client";
-import { columnsUser } from "@/components/Columns/ColumnsUser";
-import { DataTable } from "@/components/DataTable";
+import { BackupList } from "@/components/BackupsList";
 import { Loading } from "@/components/Loading";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -26,8 +37,8 @@ import { api } from "@/lib/axios";
 import { TabsList } from "@radix-ui/react-tabs";
 import { signOut, useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
-import { useState } from "react";
-import { useQuery } from "react-query";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 interface IUser {
   name: string;
@@ -39,6 +50,7 @@ interface IUser {
 export default function Admin() {
   const { toast } = useToast();
   const { data: session } = useSession();
+  const queryClient = useQueryClient();
   const [data, setData] = useState<IUser>({
     email: "",
     password: "",
@@ -95,10 +107,43 @@ export default function Admin() {
     await signOut();
   }
 
+  const { mutateAsync: createBackup } = useMutation({
+    mutationKey: ["backups"],
+    mutationFn: async () => {
+      const response = await api.post("/backups");
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("backups");
+    },
+  });
+
   const { data: users } = useQuery("users", async () => {
     const response = await api.get("/users");
     return response.data;
   });
+
+  const { data: backups } = useQuery("backups", async () => {
+    const response = await api.get("/backups");
+    return response.data;
+  });
+
+  async function handleCreateBackup() {
+    try {
+      await createBackup();
+      toast({
+        description: "Backup criado com sucesso!",
+        title: "Sucesso!",
+        variant: "default",
+      });
+    } catch (error) {
+      toast({
+        description: "Erro ao criar o backup",
+        title: "Algo de errado aconteceu!!",
+        variant: "destructive",
+      });
+    }
+  }
 
   if (users === undefined) {
     return (
@@ -209,6 +254,43 @@ export default function Admin() {
                   </Button>
                 </CardFooter>
               </form>
+            </Card>
+          </TabsContent>
+          <TabsContent value="3">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div className="flex flex-col items-start">
+                  <CardTitle>Backups</CardTitle>
+                  <CardDescription>Backups criados</CardDescription>
+                </div>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button>Criar</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Criar backup</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Clique aqui para criar um backup.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction asChild>
+                        <Button
+                          variant={"default"}
+                          onClick={() => handleCreateBackup()}
+                        >
+                          Criar
+                        </Button>
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </CardHeader>
+              <CardContent>
+                <BackupList data={backups} />
+              </CardContent>
             </Card>
           </TabsContent>
         </>

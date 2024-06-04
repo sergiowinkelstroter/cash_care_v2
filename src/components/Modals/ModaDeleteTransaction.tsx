@@ -19,9 +19,9 @@ export const ModalDeleteTransaction = ({ id }: ModalDeleteTransactionProps) => {
   return (
     <AlertDialogContent>
       <AlertDialogHeader>
-        <AlertDialogTitle>Deletar Transação</AlertDialogTitle>
+        <AlertDialogTitle>Deletar Movimentação</AlertDialogTitle>
         <AlertDialogDescription>
-          Tem certeza que deseja deletar esta transação?
+          Tem certeza que deseja deletar esta movimentação?
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>

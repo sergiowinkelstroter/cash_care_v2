@@ -30,6 +30,7 @@ model User {
   Installment    Installment[]
   Category       Category[]
   CategoryToUnit CategoryToUnit[]
+  Backups        Backups[]
 
   @@map("users")
 }
@@ -138,4 +139,13 @@ model Installment {
   updatedAt         DateTime  @default(now()) @map(name: "updated_at")
 
   @@map("installments")
+}
+
+model Backups {
+  id        Int      @id @default(autoincrement())
+  name      String
+  filename  String
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
 }
