@@ -152,7 +152,7 @@ export function PageAdmin({ session }: { session: Session | null }) {
     }
   }
 
-  if (users === undefined) {
+  if (users === undefined || backups === undefined) {
     return (
       <div className="flex min-h-screen justify-center mt-16">
         <Loading />
