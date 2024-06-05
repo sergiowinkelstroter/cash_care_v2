@@ -132,7 +132,7 @@ export function PageAdmin({ session }: { session: Session | null }) {
   });
 
   const { data: backups } = useQuery("backups", async () => {
-    const response = await api.get("/backups");
+    const response = await api.get("/users");
     return response.data;
   });
 
