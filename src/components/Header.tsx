@@ -57,7 +57,11 @@ export const Header = ({ session }: HeaderProps) => {
   }
 
   useEffect(() => {
-    if (session?.user && session.user.createdAt) {
+    if (
+      session?.user &&
+      session.user.createdAt &&
+      session.user.perfil === "test"
+    ) {
       const createdAt = new Date(session.user.createdAt);
       const localCreatedAt = toZonedTime(createdAt, timeZone);
       const trialEndDate = addDays(localCreatedAt, 7);
