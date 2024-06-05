@@ -45,7 +45,7 @@ export default function Login() {
         variant: "destructive",
       });
     } else {
-      navigate.push("/menu");
+      navigate.push("/painel");
     }
 
     setData({

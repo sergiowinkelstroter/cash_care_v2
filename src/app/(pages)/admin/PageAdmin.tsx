@@ -132,11 +132,11 @@ export function PageAdmin({ session }: { session: Session | null }) {
   });
 
   const { data: backups } = useQuery("backups", async () => {
-    const response = await api.get("/users");
+    const response = await api.get("/backups");
     return response.data;
   });
 
-  let b: Backup[] = [];
+  // let b: Backup[] = [];
 
   async function handleCreateBackup() {
     try {
@@ -325,7 +325,7 @@ export function PageAdmin({ session }: { session: Session | null }) {
                 </AlertDialog>
               </CardHeader>
               <CardContent>
-                <BackupList data={b} />
+                <BackupList data={backups} />
               </CardContent>
             </Card>
           </TabsContent>
