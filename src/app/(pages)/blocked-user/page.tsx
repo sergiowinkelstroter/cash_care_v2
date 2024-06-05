@@ -5,7 +5,7 @@ import { PageBlockedUser } from "./PageBlocked";
 import { getCurrentUser } from "@/lib/session";
 
 export default async function BlockedUser() {
-  const session = getCurrentUser();
+  const session = await getCurrentUser();
 
   if (!session) {
     redirect("/");
