@@ -49,6 +49,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { User } from "lucide-react";
+import { Backup } from "@/types/Backup";
 
 interface IUser {
   name: string;
@@ -134,6 +135,8 @@ export function PageAdmin({ session }: { session: Session | null }) {
     const response = await api.get("/backups");
     return response.data;
   });
+
+  let b: Backup[] = [];
 
   async function handleCreateBackup() {
     try {
@@ -322,7 +325,7 @@ export function PageAdmin({ session }: { session: Session | null }) {
                 </AlertDialog>
               </CardHeader>
               <CardContent>
-                <BackupList data={backups} />
+                <BackupList data={b} />
               </CardContent>
             </Card>
           </TabsContent>
