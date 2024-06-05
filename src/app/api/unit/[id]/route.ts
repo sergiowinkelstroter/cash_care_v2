@@ -2,18 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 const prisma = new PrismaClient();
+const handleInvalidSession = () => NextResponse.json({ status: 500 });
 
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   if (!params || !params.id) {
-    return NextResponse.json({ status: 500 });
+    return handleInvalidSession();
   }
 
   const id = params.id;
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({ status: 500 });
+  if (session?.user.id === undefined) return handleInvalidSession();
 
   await prisma.categoryToUnit.deleteMany({
     where: {
@@ -55,11 +56,11 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   if (!params || !params.id) {
-    return NextResponse.json({ status: 500 });
+    return handleInvalidSession();
   }
   const id = params.id;
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({ status: 500 });
+  if (session?.user.id === undefined) return handleInvalidSession();
   const body = await req.json();
   const { categoryId } = body;
   const assocUnitAndCategory = await prisma.categoryToUnit.create({
@@ -78,11 +79,11 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   if (!params || !params.id) {
-    return NextResponse.json({ status: 500 });
+    return handleInvalidSession();
   }
   const id = params.id;
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({ status: 500 });
+  if (session?.user.id === undefined) return handleInvalidSession();
 
   const unit = await prisma.unit.findMany({
     where: {
@@ -99,11 +100,11 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   if (!params || !params.id) {
-    return NextResponse.json({ status: 500 });
+    return handleInvalidSession();
   }
   const id = params.id;
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({ status: 500 });
+  if (session?.user.id === undefined) return handleInvalidSession();
   const body = await request.json();
   const { description, situacao } = body;
   const unit = await prisma.unit.update({

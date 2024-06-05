@@ -3,12 +3,14 @@ import { PrismaClient } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 const prisma = new PrismaClient();
 
+const handleInvalidSession = () => NextResponse.json({ status: 500 });
+
 export async function POST(req: NextRequest) {
   const params = req.nextUrl.searchParams;
   const id = params.get("id");
   const session = await getCurrentUser();
   const userId = session?.user.id;
-  if (userId === undefined) return NextResponse.json({ status: 500 });
+  if (userId === undefined) return handleInvalidSession();
   const body = await req.json();
   const { categories } = body;
   categories.forEach(async (categoryId: number) => {
@@ -46,7 +48,7 @@ export async function GET(req: NextRequest) {
   const params = req.nextUrl.searchParams;
   const id = params.get("id");
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({ status: 500 });
+  if (session?.user.id === undefined) return handleInvalidSession();
 
   const c = await prisma.categoryToUnit.findMany({
     where: {

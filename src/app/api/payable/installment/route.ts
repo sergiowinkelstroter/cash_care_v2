@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import { z } from "zod";
 const prisma = new PrismaClient();
+const handleInvalidSession = () => NextResponse.json({ status: 500 });
 
 const createPayableSchema = z.object({
   description: z.string().min(1, "A descrição é obrigatória"),
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest) {
     unit,
   } = validatedData;
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({});
+  if (session?.user.id === undefined) return handleInvalidSession();
 
   const data_unica = dates.length === 1;
 
@@ -92,7 +93,7 @@ export async function POST(req: NextRequest) {
 }
 export async function GET() {
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({});
+  if (session?.user.id === undefined) return handleInvalidSession();
   const parcelas_a_pagar = await prisma.installment.findMany({
     where: {
       userId: session.user.id,

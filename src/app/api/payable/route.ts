@@ -2,7 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 import { z } from "zod";
+
 const prisma = new PrismaClient();
+
+const handleInvalidSession = () => NextResponse.json({ status: 500 });
 
 const createPayableSchema = z.object({
   id: z.number().min(1, "A descrição é obrigatória").or(z.undefined()),
@@ -16,7 +19,7 @@ const createPayableSchema = z.object({
 
 export async function GET() {
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({});
+  if (session?.user.id === undefined) return handleInvalidSession();
   try {
     const payables = await prisma.payable.findMany({
       where: {
@@ -75,7 +78,7 @@ export async function DELETE(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({});
+  if (session?.user.id === undefined) return handleInvalidSession();
   const body = await request.json();
   const validatedData = createPayableSchema.parse(body);
   const {

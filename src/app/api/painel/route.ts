@@ -4,17 +4,19 @@ import { getCurrentUser } from "@/lib/session";
 
 const prisma = new PrismaClient();
 
+const handleInvalidSession = () => NextResponse.json({ status: 500 });
+
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const unit = searchParams.get("unit");
   const month = searchParams.get("month");
 
   if (unit === null || month === null) {
-    return NextResponse.json({ status: 500 });
+    return handleInvalidSession();
   }
 
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({ status: 500 });
+  if (session?.user.id === undefined) return handleInvalidSession();
 
   const year = parseInt(month.substring(0, 4));
   const monthNumber = parseInt(month.substring(5, 7)) - 1;

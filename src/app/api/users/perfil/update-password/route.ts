@@ -4,9 +4,11 @@ import bcrypt from "bcrypt";
 import { getCurrentUser } from "@/lib/session";
 const prisma = new PrismaClient();
 
+const handleInvalidSession = () => NextResponse.json({ status: 500 });
+
 export async function PATCH(request: NextRequest) {
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({ status: 500 });
+  if (session?.user.id === undefined) return handleInvalidSession();
 
   const body = await request.json();
 
@@ -44,10 +46,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const body = await req.json();
   const { id, password } = body;
 
-  console.log(id, password);
-
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({ status: 500 });
+  if (session?.user.id === undefined) return handleInvalidSession();
 
   if (!id || !password) {
     return NextResponse.json(

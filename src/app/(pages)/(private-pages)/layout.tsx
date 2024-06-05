@@ -13,15 +13,15 @@ export default async function RootLayout({
     redirect("/");
   }
 
+  if (session.user.perfil === "admin") {
+    redirect("/admin");
+  }
+
   if (session.user.situacao === "I") {
     if (session.user.perfil === "test") {
       redirect("/test-over");
     }
     redirect("/blocked-user");
-  }
-
-  if (session.user.perfil === "admin") {
-    redirect("/admin");
   }
 
   return (

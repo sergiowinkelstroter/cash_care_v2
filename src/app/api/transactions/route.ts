@@ -2,13 +2,14 @@ import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 const prisma = new PrismaClient();
+const handleInvalidSession = () => NextResponse.json({ status: 500 });
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const { id, description, value, unit, type, date, category, paymentMethod } =
     body;
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({});
+  if (session?.user.id === undefined) return handleInvalidSession();
 
   let newTransaction;
 
@@ -48,7 +49,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({});
+  if (session?.user.id === undefined) return handleInvalidSession();
   const transactions = await prisma.movement.findMany({
     orderBy: {
       date: "desc",

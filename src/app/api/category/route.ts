@@ -4,11 +4,13 @@ import { getCurrentUser } from "@/lib/session";
 
 const prisma = new PrismaClient();
 
+const handleInvalidSession = () => NextResponse.json({ status: 500 });
+
 export async function GET(request: NextRequest) {
   const search = request.nextUrl.searchParams;
   const situacao = search.get("situacao");
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({ status: 500 });
+  if (session?.user.id === undefined) return handleInvalidSession();
 
   if (situacao === "A") {
     const categories = await prisma.category.findMany({
@@ -30,7 +32,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest, response: NextResponse) {
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({ status: 500 });
+  if (session?.user.id === undefined) return handleInvalidSession();
 
   const body = await request.json();
 

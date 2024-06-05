@@ -4,9 +4,11 @@ import { getCurrentUser } from "@/lib/session";
 
 const prisma = new PrismaClient();
 
+const handleInvalidSession = () => NextResponse.json({ status: 500 });
+
 export async function GET(request: NextRequest) {
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({ status: 500 });
+  if (session?.user.id === undefined) return handleInvalidSession();
   const search = request.nextUrl.searchParams;
   const situacao = search.get("situacao");
 
@@ -31,7 +33,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({ status: 500 });
+  if (session?.user.id === undefined) return handleInvalidSession();
   const body = await request.json();
   const { name } = body;
   const unit = await prisma.unit.create({

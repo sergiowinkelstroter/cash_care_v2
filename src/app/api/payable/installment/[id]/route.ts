@@ -3,17 +3,19 @@ import { PrismaClient } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 const prisma = new PrismaClient();
 
+const handleInvalidSession = () => NextResponse.json({ status: 500 });
+
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   if (!params || !params.id) {
-    return NextResponse.json({ status: 500 });
+    return handleInvalidSession();
   }
 
   const id = params.id;
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({ status: 500 });
+  if (session?.user.id === undefined) return handleInvalidSession();
 
   const existingInstallment = await prisma.installment.findUnique({
     where: {
@@ -46,7 +48,7 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   if (!params || !params.id) {
-    return NextResponse.json({ status: 500 });
+    return handleInvalidSession();
   }
 
   const id = params.id;
@@ -58,7 +60,7 @@ export async function POST(
 
   const session = await getCurrentUser();
   if (!session?.user.id) {
-    return NextResponse.json({ status: 500 });
+    return handleInvalidSession();
   }
 
   try {

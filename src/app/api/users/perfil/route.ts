@@ -3,9 +3,11 @@ import { PrismaClient } from "@prisma/client";
 import { getCurrentUser } from "@/lib/session";
 const prisma = new PrismaClient();
 
+const handleInvalidSession = () => NextResponse.json({ status: 500 });
+
 export async function GET() {
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({ status: 500 });
+  if (session?.user.id === undefined) return handleInvalidSession();
 
   const user = await prisma.user.findUnique({
     where: {
@@ -26,7 +28,7 @@ export async function GET() {
 
 export async function PATCH(request: NextRequest) {
   const session = await getCurrentUser();
-  if (session?.user.id === undefined) return NextResponse.json({ status: 500 });
+  if (session?.user.id === undefined) return handleInvalidSession();
 
   const body = await request.json();
 
