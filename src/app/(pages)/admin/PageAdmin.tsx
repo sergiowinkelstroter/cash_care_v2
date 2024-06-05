@@ -160,8 +160,6 @@ export function PageAdmin({ session }: { session: Session | null }) {
     );
   }
 
-  console.log(session);
-
   return (
     <div className="flex min-h-screen justify-center mt-16 mx-8 md:mx-0">
       <Tabs defaultValue="1" className="w-full flex flex-col  max-w-[800px]">
