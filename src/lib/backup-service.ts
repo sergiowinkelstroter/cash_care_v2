@@ -11,6 +11,7 @@ const DB_BACKUPS_FOLDER = process.env.DB_BACKUPS_FOLDER as string;
 const DB_CONTAINER_NAME = process.env.DB_CONTAINER_NAME as string;
 const DATABASE_CONTAINER = process.env.DATABASE_CONTAINER as string;
 const DATABASE_URL = process.env.DATABASE_URL as string;
+const DATABASE_NAME = process.env.DATABASE_NAME as string;
 
 function generateUUID(): string {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
@@ -44,9 +45,15 @@ async function executeCommand(command: string): Promise<void> {
   }
 }
 
+async function adjustSequences() {
+  const adjustSequencesCommand = `docker exec ${DB_CONTAINER_NAME} psql -U postgres -d ${DATABASE_NAME} -c "SELECT reset_sequences();"`;
+  await execPromise(adjustSequencesCommand);
+}
+
 async function restoreDatabase(filePath: string): Promise<void> {
-  const restoreCommand = `docker exec -i ${DB_CONTAINER_NAME} pg_restore -U postgres -d postgres < ${filePath}`;
+  const restoreCommand = `docker exec -i ${DB_CONTAINER_NAME} pg_restore -U postgres -d ${DATABASE_NAME} < ${filePath}`;
   await executeCommand(restoreCommand);
+  await adjustSequences();
 }
 
 async function databaseExists(databaseName: string): Promise<boolean> {
