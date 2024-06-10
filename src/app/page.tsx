@@ -205,7 +205,7 @@ export default function Home() {
               </Card>
               <Card className="relative bg-black/90 p-6 rounded-lg shadow-md">
                 <CardHeader className="flex flex-col items-center text-center">
-                  <Tooltip>
+                  {/* <Tooltip>
                     <TooltipTrigger asChild>
                       <span className="absolute top-0 left-0 bg-white rounded-b-md p-2 font-semibold flex gap-1">
                         <Hourglass />
@@ -214,7 +214,7 @@ export default function Home() {
                     <TooltipContent side="right">
                       <p>Em Breve</p>
                     </TooltipContent>
-                  </Tooltip>
+                  </Tooltip> */}
                   <div className="bg-white p-4 rounded-full mb-4">
                     <Bell className="text-black" size={32} />
                   </div>
