@@ -47,7 +47,7 @@ export async function POST() {
     });
 
     const number = `55${user.fone.replace(/[^0-9]/g, "")}`;
-    await api_notify.post("/teste", {
+    await api_notify.post(`/${process.env.INSTANCE}`, {
       number: number,
       textMessage: {
         text: message,
