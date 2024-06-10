@@ -4,7 +4,67 @@ const path = require("path");
 const { generateReport, genPDF } = require("./utils/pdf");
 const { query } = require("./db");
 const { formatDateString } = require("./utils/formattedString");
-const { inverterData } = require("./utils/inverterData");
+const dotenv = require("dotenv");
+dotenv.config();
+const cron = require("node-cron");
+const fetch = require("node-fetch");
+
+// Define a função que será executada no agendamento
+const executeTask = async () => {
+  try {
+    // Faz a chamada para sua rota
+    const response = await fetch(`${process.env.NEXTAUTH_URL}/api/notify`, {
+      method: "POST", // Ou o método HTTP correto
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // Se necessário, envie dados no corpo da requisição
+      body: JSON.stringify({}),
+    });
+    if (response.ok) {
+      console.log("Chamada para a rota realizada com sucesso!");
+    } else {
+      console.error("Erro ao chamar a rota:", response.status);
+    }
+  } catch (error) {
+    console.error("Erro ao chamar a rota:", error);
+  }
+};
+
+const executeTaskRelatorioMensal = async () => {
+  try {
+    // Faz a chamada para sua rota
+    const response = await fetch(
+      `${process.env.NEXTAUTH_URL}/api/notify/relatorios`,
+      {
+        method: "POST", // Ou o método HTTP correto
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // Se necessário, envie dados no corpo da requisição
+        body: JSON.stringify({}),
+      }
+    );
+    if (response.ok) {
+      console.log("Chamada para a rota realizada com sucesso!");
+    } else {
+      console.error("Erro ao chamar a rota:", response.status);
+    }
+  } catch (error) {
+    console.error("Erro ao chamar a rota:", error);
+  }
+};
+
+// Agenda a tarefa para ser executada diariamente às 8h da manhã
+cron.schedule("0 8 * * *", async () => {
+  console.log("Executando tarefa agendada...");
+  await executeTask();
+});
+
+cron.schedule("0 8 1 * *", async () => {
+  console.log("Executando tarefa agendada...");
+  await executeTaskRelatorioMensal();
+});
 
 const dev = process.env.NODE_ENV !== "production";
 const react_app = next({ dev });

@@ -170,7 +170,7 @@ export const Perfil = () => {
           </CardContent>
 
           <CardFooter className="flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between md:items-center w-full">
-            {/* {session?.user.perfil === "test" ? (
+            {session?.user.perfil === "test" ? (
               <div></div>
             ) : (
               <div className="flex justify-start items-center gap-2">
@@ -182,7 +182,7 @@ export const Perfil = () => {
                 />
                 <span className="">Receber notificações</span>
               </div>
-            )} */}
+            )}
             <div></div>
             <div className="flex flex-col md:flex-row md:items-center gap-3 w-full md:w-auto">
               {session?.user.perfil === "test" ? (
