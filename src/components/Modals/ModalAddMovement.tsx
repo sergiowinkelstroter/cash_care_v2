@@ -293,9 +293,9 @@ export const ModalAddMovement = ({ setOpen, data }: ModalAddMovementProps) => {
                     <SelectItem value="transferencia_bancaria">
                       Transferência Bancária
                     </SelectItem>
-                    <SelectItem value="boleto_bancario">
+                    {/* <SelectItem value="boleto_bancario">
                       Boleto Bancário
-                    </SelectItem>
+                    </SelectItem> */}
                     <SelectItem value="cheque">Cheque</SelectItem>
                   </SelectContent>
                 </Select>

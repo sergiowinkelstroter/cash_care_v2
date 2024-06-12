@@ -25,7 +25,7 @@ export default function PainelPagamento() {
         merchantCity: "Açailândia",
         pixKey: "winksousa0@gmail.com",
         infoAdicional: "Cash Care - Mensalidade",
-        transactionAmount: 49.9,
+        transactionAmount: 79.9,
       });
 
       if (!hasError(pix)) {
