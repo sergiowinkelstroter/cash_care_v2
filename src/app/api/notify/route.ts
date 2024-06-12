@@ -29,6 +29,7 @@ export async function POST() {
 
   const users = await prisma.user.findMany({
     where: {
+      situacao: "A",
       notification: "A",
       perfil: "classic",
     },
@@ -51,7 +52,7 @@ export async function POST() {
   for (const user of users) {
     const installments = user.Installment;
 
-    let message = `🌞 Bom dia, ${user.name}! 🌞\n\n`;
+    let message = `Bom dia, ${user.name}! 🌞\n\n`;
 
     if (installments.length > 0) {
       message += `📅 Hoje você tem a${
@@ -72,7 +73,7 @@ export async function POST() {
         message += `🔸 ${installment.description} (Parcela: ${installment.installmentNumber})\n🗓️ Data de Vencimento: ${formattedDate}\n🏢 Unidade: ${installment.unit.description}\n💰 Valor: ${formattedValue}\n\n`;
       });
     } else {
-      message += "🎉 Parabéns, você não tem contas a pagar hoje! 🎉";
+      message += "Parabéns, você não tem contas a pagar hoje! 🎉";
     }
 
     const number = `55${user.fone.replace(/[^0-9]/g, "")}`;

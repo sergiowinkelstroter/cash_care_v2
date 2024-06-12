@@ -19,6 +19,7 @@ const generateReportLinks = (
 export async function POST() {
   const users = await prisma.user.findMany({
     where: {
+      situacao: "A",
       notification: "A",
       perfil: "classic",
     },
