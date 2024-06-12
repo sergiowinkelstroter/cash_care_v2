@@ -87,7 +87,7 @@ export const ModalAddMovement = ({ setOpen, data }: ModalAddMovementProps) => {
       await api.post("/transactions", {
         id: data?.id,
         description: values.description,
-        value: values.value,
+        value: values.value.replace(",", "."),
         unit: values.unit,
         type: values.type,
         date: values.date,

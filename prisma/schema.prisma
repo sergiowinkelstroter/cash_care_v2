@@ -82,7 +82,7 @@ model CategoryToUnit {
 model Movement {
   id            Int           @id @default(autoincrement())
   description   String
-  value         Decimal
+  value         Decimal       @db.Decimal(10, 2)
   type          String
   date          DateTime
   paymentMethod String?
@@ -102,7 +102,7 @@ model Movement {
 model Payable {
   id                   Int           @id @default(autoincrement())
   description          String
-  totalValue           Decimal
+  totalValue           Decimal       @db.Decimal(10, 2)
   numberOfInstallments Int
   uniqueDate           Int?
   userId               Int
@@ -122,7 +122,7 @@ model Installment {
   id                Int       @id @default(autoincrement())
   description       String
   installmentNumber String
-  value             Decimal
+  value             Decimal   @db.Decimal(10, 2)
   date              DateTime
   status            String
   payableId         Int

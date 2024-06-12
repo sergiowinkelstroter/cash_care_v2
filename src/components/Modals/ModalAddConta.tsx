@@ -96,7 +96,7 @@ export const ModalAddConta = ({ conta, setOpen }: ModalAddContaProps) => {
       await api.post("/payable", {
         id: conta?.id,
         description: values.description,
-        totalValue: values.totalValue,
+        totalValue: values.totalValue.replace(",", "."),
         numberOfInstallments: Number(values.numberOfInstallments),
         dates: installmentDates,
         category: values.category,
