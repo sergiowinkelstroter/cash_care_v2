@@ -72,17 +72,15 @@ export async function POST() {
         const formattedValue = formatCurrency(Number(installment.value));
         message += `🔸 ${installment.description} (Parcela: ${installment.installmentNumber})\n🗓️ Data de Vencimento: ${formattedDate}\n🏢 Unidade: ${installment.unit.description}\n💰 Valor: ${formattedValue}\n\n`;
       });
-    } else {
-      message += "Parabéns, você não tem contas a pagar hoje! 🎉";
-    }
 
-    const number = `55${user.fone.replace(/[^0-9]/g, "")}`;
-    await api_notify.post(`/${process.env.INSTANCE}`, {
-      number: number,
-      textMessage: {
-        text: message,
-      },
-    });
+      const number = `55${user.fone.replace(/[^0-9]/g, "")}`;
+      await api_notify.post(`/${process.env.INSTANCE}`, {
+        number: number,
+        textMessage: {
+          text: message,
+        },
+      });
+    }
   }
 
   return NextResponse.json({

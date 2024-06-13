@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
 import { Metadata } from "next";
+import GoogleAnalytics from "./GoogleAnalytics";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -12,7 +13,8 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   title: "Cash Care",
-  description: "",
+  description:
+    "Descubra a Cash Care, o sistema inovador de gestão financeira para indivíduos e pequenas empresas. Controle suas finanças com facilidade, organize contas, receba notificações e gere relatórios detalhados. Experimente gratuitamente e transforme sua gestão financeira com a Cash Care.",
   icons: "/logo.svg",
 };
 
@@ -27,6 +29,7 @@ export default function RootLayout({
         <body
           className={cn("font-sans antialiased bg-gray-200", fontSans.variable)}
         >
+          <GoogleAnalytics />
           {children}
           <Toaster />
         </body>
