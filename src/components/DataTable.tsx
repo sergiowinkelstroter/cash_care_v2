@@ -104,18 +104,25 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between py-4">
+      <div className="flex items-center justify-between py-4 gap-2 ">
         <Input
+          type={filtro === "date" ? "date" : "text"}
           placeholder={`Filtrar por ${columnName?.name}...`}
           value={(table.getColumn(filtro)?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn(filtro)?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
+          onChange={(event) => {
+            if (filtro === "value") {
+              table
+                .getColumn(filtro)
+                ?.setFilterValue(event.target.value.replace(",", "."));
+            } else {
+              table.getColumn(filtro)?.setFilterValue(event.target.value);
+            }
+          }}
+          className="max-w-sm h-10 block"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="h-7 gap-1 text-sm">
+            <Button variant="outline" size="sm" className="h-10 gap-1 text-sm">
               <ListFilter className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only">Filtro</span>
             </Button>
@@ -127,7 +134,7 @@ export function DataTable<TData, TValue>({
               <div key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   if (
-                    header.column.id !== "date" &&
+                    // header.column.id !== "date" &&
                     header.column.id !== "color" &&
                     header.column.id !== "id"
                   ) {
