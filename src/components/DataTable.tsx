@@ -25,6 +25,22 @@ import { Loading } from "./Loading";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { MutableRefObject, RefObject, useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { ListFilter } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -41,6 +57,8 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+  const [filtro, setFiltro] = useState("description");
+
   const table = useReactTable({
     data,
     columns,
@@ -67,20 +85,71 @@ export function DataTable<TData, TValue>({
     );
   }
 
+  const columnsName = [
+    { id: "id", name: "id" },
+    { id: "type", name: "tipo" },
+    { id: "description", name: "descrição" },
+    { id: "date", name: "data" },
+    { id: "value", name: "valor" },
+    { id: "category", name: "categoria" },
+    { id: "unit", name: "unidade" },
+    { id: "numberOfInstallments", name: "parcelas" },
+    { id: "totalValue", name: "total" },
+    { id: "status", name: "status" },
+    { id: "paymentMethod", name: "método de pagamento" },
+    { id: "situacao", name: "situacao" },
+  ];
+
+  const columnName = columnsName.find((column) => column.id === filtro);
+
   return (
     <div className="w-full">
-      <div className="flex items-center pb-4">
+      <div className="flex items-center justify-between py-4">
         <Input
-          placeholder="Filtrar por nome..."
-          value={
-            (table.getColumn("description")?.getFilterValue() as string) ?? ""
-          }
+          placeholder={`Filtrar por ${columnName?.name}...`}
+          value={(table.getColumn(filtro)?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("description")?.setFilterValue(event.target.value)
+            table.getColumn(filtro)?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-        <div></div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm" className="h-7 gap-1 text-sm">
+              <ListFilter className="h-3.5 w-3.5" />
+              <span className="sr-only sm:not-sr-only">Filtro</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Filtrar por</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {table.getHeaderGroups().map((headerGroup) => (
+              <div key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  if (
+                    header.column.id !== "date" &&
+                    header.column.id !== "color"
+                  ) {
+                    return (
+                      <DropdownMenuCheckboxItem
+                        key={header.id}
+                        checked={filtro === header.column.id}
+                        onSelect={() => setFiltro(header.column.id)}
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </DropdownMenuCheckboxItem>
+                    );
+                  }
+                })}
+              </div>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <div className="rounded-md border" ref={ref}>
         <Table>

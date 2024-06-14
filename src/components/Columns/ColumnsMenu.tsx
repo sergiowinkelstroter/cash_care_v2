@@ -5,6 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { capitalizeFirstLetter } from "@/utils/capitalizeFirstLetter";
 import { inverterData } from "@/utils/inverterData";
 import { Category } from "@/types/Category";
+import { objectFilterFn } from "@/utils/objectFilterFn";
 
 export const columnsMenu: ColumnDef<Transaction>[] = [
   {
@@ -38,6 +39,7 @@ export const columnsMenu: ColumnDef<Transaction>[] = [
       const value = getValue<Category>();
       return <div className="truncate">{value.description}</div>;
     },
+    filterFn: objectFilterFn,
   },
   {
     accessorKey: "value",

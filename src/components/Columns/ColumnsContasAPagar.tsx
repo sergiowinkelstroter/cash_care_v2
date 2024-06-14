@@ -12,6 +12,7 @@ import { Installment } from "@/types/Installment";
 import { Unit } from "@/types/Unit";
 import { useState } from "react";
 import { Dialog, DialogTrigger } from "../ui/dialog";
+import { objectFilterFn } from "@/utils/objectFilterFn";
 
 const TableCellComponent = ({ original }: { original: Installment }) => {
   const [open, setOpen] = useState(false);
@@ -89,6 +90,7 @@ export const columnsContasAPagar: ColumnDef<Installment>[] = [
       const value = getValue<Unit>();
       return <div className="truncate">{value.description}</div>;
     },
+    filterFn: objectFilterFn,
   },
   {
     accessorKey: "date",

@@ -16,6 +16,7 @@ import { Payable } from "@/types/Payable";
 import { Category } from "@/types/Category";
 import { ModalDeletePayable } from "../Modals/ModalDeletePayable";
 import { ModalAddConta } from "../Modals/ModalAddConta";
+import { objectFilterFn } from "@/utils/objectFilterFn";
 
 const TableCellComponent = ({ original }: { original: Payable }) => {
   const [open, setOpen] = useState(false);
@@ -75,6 +76,7 @@ export const columnsContas: ColumnDef<Payable>[] = [
       const value = getValue<Unit>();
       return <div className="truncate">{value.description}</div>;
     },
+    filterFn: objectFilterFn,
   },
   {
     accessorKey: "category",
@@ -83,6 +85,7 @@ export const columnsContas: ColumnDef<Payable>[] = [
       const value = getValue<Category>();
       return <div className="truncate">{value.description}</div>;
     },
+    filterFn: objectFilterFn,
   },
   {
     accessorKey: "totalValue",

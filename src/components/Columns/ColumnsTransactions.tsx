@@ -14,6 +14,7 @@ import { Dialog } from "@radix-ui/react-dialog";
 import { ModalAddMovement } from "../Modals/ModalAddMovement";
 import { DialogTrigger } from "../ui/dialog";
 import { useState } from "react";
+import { objectFilterFn } from "@/utils/objectFilterFn";
 
 const TableCellComponent = ({ original }: { original: Transaction }) => {
   const [open, setOpen] = useState(false);
@@ -64,6 +65,7 @@ export const columnsTransactions: ColumnDef<Transaction>[] = [
       const value = getValue<Unit>();
       return <div className="truncate">{value.description}</div>;
     },
+    filterFn: objectFilterFn,
   },
   {
     accessorKey: "category",
@@ -72,6 +74,7 @@ export const columnsTransactions: ColumnDef<Transaction>[] = [
       const value = getValue<Category>();
       return <div className="truncate">{value.description}</div>;
     },
+    filterFn: objectFilterFn,
   },
   {
     accessorKey: "date",
