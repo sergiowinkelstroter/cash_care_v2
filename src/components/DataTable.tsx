@@ -128,7 +128,8 @@ export function DataTable<TData, TValue>({
                 {headerGroup.headers.map((header) => {
                   if (
                     header.column.id !== "date" &&
-                    header.column.id !== "color"
+                    header.column.id !== "color" &&
+                    header.column.id !== "id"
                   ) {
                     return (
                       <DropdownMenuCheckboxItem
