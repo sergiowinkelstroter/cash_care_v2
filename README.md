@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Cash Care
 
-## Getting Started
+![Logo](public/logo.svg)
 
-First, run the development server:
+Cash Care é um sistema inovador de controle financeiro, desenvolvido para oferecer uma solução completa e acessível para indivíduos e pequenas empresas. Nosso objetivo é transformar a maneira como você gerencia suas finanças, proporcionando uma plataforma robusta, mas fácil de usar, que se adapta às suas necessidades específicas.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Funcionalidades
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Painel Dinâmico**: Gerencie seus gastos e receitas de forma eficiente e eficaz.
+- **Gerenciamento de Movimentações**: Controle todas as transações financeiras com facilidade.
+- **Controle de Contas a Pagar**: Organize contas com parcelas e acompanhe pagamentos de forma eficiente.
+- **Notificações via WhatsApp**: Receba notificações sobre as contas a pagar do dia.
+- **Relatórios em PDF**: Gere relatórios mensais para uma análise detalhada.
+- **Configurações Personalizadas**: Configure unidades e categorias de acordo com suas necessidades.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tecnologias Utilizadas
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **TypeScript**
+- **Next.js**
+- **Prisma**
+- **Tailwind CSS**
+- **PostgreSQL**
 
-## Learn More
+## Instalação
 
-To learn more about Next.js, take a look at the following resources:
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/cash-care.git
+   ```
+2. Instale as dependências:
+   ```bash
+   cd cash-care
+   npm install
+   ```
+3. Configure o banco de dados no arquivo `.env`.
+4. Execute as migrações do Prisma:
+   ```bash
+   npx prisma migrate dev
+   ```
+5. Inicie o servidor:
+   ```bash
+   npm run dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Uso
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. Acesse `http://localhost:3000` no seu navegador.
+2. Crie uma conta ou faça login.
+3. Utilize o painel para gerenciar suas finanças.
 
-## Deploy on Vercel
+## Contribuição
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Fork este repositório.
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`).
+3. Commit suas alterações (`git commit -m 'Adiciona nova feature'`).
+4. Push para a branch (`git push origin feature/nova-feature`).
+5. Abra um Pull Request.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Licença
+
+Este projeto está licenciado sob a licença Creative Commons Attribution-NonCommercial (CC BY-NC). Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## Contato
+
+Para mais informações, entre em contato através do email: winksousa0@gmail.com
