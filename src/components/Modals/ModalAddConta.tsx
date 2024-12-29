@@ -65,7 +65,7 @@ export const ModalAddConta = ({ conta, setOpen }: ModalAddContaProps) => {
       description: conta?.description,
       totalValue: conta?.totalValue,
       numberOfInstallments: conta?.numberOfInstallments.toString(),
-      date: convertDateTimeToDate(conta?.Installment[0].date),
+      date: convertDateTimeToDate(conta?.Installment[0]?.date),
       unit: String(conta?.unitId),
       category: String(conta?.categoryId),
     },
