@@ -11,8 +11,8 @@ const generateReportLinks = (
   previousMonth: string,
   unit: number
 ) => {
-  const movimentacoesLink = `https://cashcare.cloud/pdf/movimentacoes/${userId}/${previousMonth}/${unit}/relatorio-movimentacoes`;
-  const contasAPagarLink = `https://cashcare.cloud/pdf/contas-a-pagar/${userId}/${previousMonth}/${unit}/relatorio-contas-a-pagar`;
+  const movimentacoesLink = `https://cashcare.site/pdf/movimentacoes/${userId}/${previousMonth}/${unit}/relatorio-movimentacoes`;
+  const contasAPagarLink = `https://cashcare.site/pdf/contas-a-pagar/${userId}/${previousMonth}/${unit}/relatorio-contas-a-pagar`;
   return { movimentacoesLink, contasAPagarLink };
 };
 
